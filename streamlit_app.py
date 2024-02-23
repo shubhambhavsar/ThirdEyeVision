@@ -1,6 +1,6 @@
 import streamlit as st
 from ultralytics import YOLO
-import cv2
+# import cv2
 import base64
 from gtts import gTTS
 from io import BytesIO
