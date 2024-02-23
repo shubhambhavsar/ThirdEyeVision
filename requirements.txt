@@ -2,3 +2,4 @@
 opencv-python-headless
 ultralytics
 gTTS
+omegaconf
