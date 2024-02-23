@@ -25,7 +25,7 @@ from ultralytics import YOLO
 import cv2
 import base64
 from gtts import gTTS
-# from io import BytesIO
+from io import BytesIO
 # sound_file = BytesIO()
 
 
@@ -34,9 +34,12 @@ from gtts import gTTS
 
 def speak(text):
     tts = gTTS(text, lang='en')
-    audio_file_path = "temp_audio.wav"
-    tts.save(audio_file_path)  # Save audio to a temporary file
-    return audio_file_path
+    audio_bytes_io = BytesIO()
+    tts.write_to_fp(audio_bytes_io)
+    audio_bytes_io.seek(0)
+    audio_base64 = base64.b64encode(audio_bytes_io.read()).decode('utf-8')
+    audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'
+    st.components.v1.html(audio_html, height=50)
 
 
 
@@ -81,7 +84,7 @@ def detect_objects(image_path):
             audio_html = speak(class_name)
 
             # st.components.v1.html(audio_html, height=50)
-            st.audio(audio_html, format='audio/wav', start_time=0)
+            # st.audio(audio_html, format='audio/wav', start_time=0)
             # speak(f"There is a {class_name}")
 
     return img
