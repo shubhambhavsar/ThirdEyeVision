@@ -1,6 +1,6 @@
 import streamlit as st
 from ultralytics import YOLO
-import cv2
+# import cv2
 import base64
 from gtts import gTTS
 from io import BytesIO
@@ -8,6 +8,7 @@ from io import BytesIO
 
 # Initialize text-to-speech engine
 # engine = pyttsx3.init()
+model_path = YOLO("best_Model_Roboflow.pt")
 
 def speak(text):
     tts = gTTS(text, lang='en')
