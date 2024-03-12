@@ -178,7 +178,7 @@ audio_html = speak(detected_text)
 
 
 webrtc_ctx = webrtc_streamer(
-    key="TEST",
+    key="WYH",
     mode=WebRtcMode.SENDRECV,
     rtc_configuration=RTC_CONFIGURATION,
     media_stream_constraints={"video": True, "audio": False},
