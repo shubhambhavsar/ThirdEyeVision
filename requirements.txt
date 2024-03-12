@@ -4,3 +4,4 @@ ultralytics
 gTTS
 omegaconf
 Easyocr
+streamlit-webrtc

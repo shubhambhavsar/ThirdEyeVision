@@ -9,7 +9,7 @@ import streamlit as st
 import base64
 from gtts import gTTS
 from io import BytesIO
-
+from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 def speak(text):
     tts = gTTS(text, lang='en')
@@ -164,9 +164,23 @@ def main_func():
     cv2.destroyAllWindows()
     return most_common
 
+RTC_CONFIGURATION = RTCConfiguration(
+    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+)
+
 detected_text = main_func()
 
 # Display the most common text
 st.write("Most common text:", detected_text)
 
 audio_html = speak(detected_text)
+
+
+
+webrtc_ctx = webrtc_streamer(
+    key="TEST",
+    mode=WebRtcMode.SENDRECV,
+    rtc_configuration=RTC_CONFIGURATION,
+    media_stream_constraints={"video": True, "audio": False},
+    async_processing=True,
+)
