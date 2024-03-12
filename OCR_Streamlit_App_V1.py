@@ -21,7 +21,7 @@ def speak(text):
     st.components.v1.html(audio_html, height=50)
 
 # Replace the relative path to your weight file
-model_path = "C:/Users/user/OneDrive - Loyalist College/AIandDS/Term 2/Step_Presentation/Project_Backup/best_Model_Roboflow.pt"
+model_path = "best_Model_Roboflow.pt"
 source_path = 0 #r"C:/Users/user/OneDrive - Loyalist College/AIandDS/Term 2/Step_Presentation/Videos/2.mp4"
 
 # Initialize a Counter object to store text occurrences
