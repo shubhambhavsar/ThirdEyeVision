@@ -22,7 +22,7 @@ def speak(text):
 
 # Replace the relative path to your weight file
 model_path = "best_Model_Roboflow.pt"
-source_path = 1 #r"C:/Users/user/OneDrive - Loyalist College/AIandDS/Term 2/Step_Presentation/Videos/2.mp4"
+source_path = 0 #r"C:/Users/user/OneDrive - Loyalist College/AIandDS/Term 2/Step_Presentation/Videos/2.mp4"
 
 # Initialize a Counter object to store text occurrences
 text_occurrences_global = Counter()
@@ -112,10 +112,6 @@ text_occurrences_global = Counter()
 
 
 def main_func():
-    st.set_page_config(page_title="Streamlit WebCam App")
-    st.title("Webcam Display Steamlit App")
-    st.caption("Powered by OpenCV, Streamlit")
-
     # Initialize a counter for processed frames
     processed_frames_count = 0
     # Loop through video frames
@@ -168,12 +164,16 @@ def main_func():
 #     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
 # )
 
+st.set_page_config(page_title="Streamlit WebCam App")
+st.title("Webcam Display Steamlit App")
+st.caption("Powered by OpenCV, Streamlit")
+
 detected_text = main_func()
 
 # Display the most common text
 st.write("Most common text:", detected_text)
 
-audio_html = speak(detected_text)
+speak(detected_text)
 
 
 
