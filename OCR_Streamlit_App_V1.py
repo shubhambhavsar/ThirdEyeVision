@@ -36,7 +36,7 @@ n_frames_to_process = 50
 model = YOLO(model_path)
 
 # Open video capture
-cap = cv2.VideoCapture(source_path)
+cap = cv2.VideoCapture(source_path,cv2.CAP_DSHOW)
 
 
 
@@ -164,9 +164,9 @@ def main_func():
     cv2.destroyAllWindows()
     return most_common
 
-RTC_CONFIGURATION = RTCConfiguration(
-    {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
-)
+# RTC_CONFIGURATION = RTCConfiguration(
+#     {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+# )
 
 detected_text = main_func()
 
@@ -177,10 +177,10 @@ audio_html = speak(detected_text)
 
 
 
-webrtc_ctx = webrtc_streamer(
-    key="WYH",
-    mode=WebRtcMode.SENDRECV,
-    rtc_configuration=RTC_CONFIGURATION,
-    media_stream_constraints={"video": True, "audio": False},
-    async_processing=True,
-)
+# webrtc_ctx = webrtc_streamer(
+#     key="WYH",
+#     mode=WebRtcMode.SENDRECV,
+#     rtc_configuration=RTC_CONFIGURATION,
+#     media_stream_constraints={"video": True, "audio": False},
+#     async_processing=True,
+# )
