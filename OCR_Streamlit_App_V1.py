@@ -1,3 +1,8 @@
+from streamlit_webrtc import webrtc_streamer
+
+webrtc_streamer(key="sample")
+
+
 import cv2
 import torch
 from ultralytics import YOLO
@@ -9,7 +14,7 @@ import streamlit as st
 import base64
 from gtts import gTTS
 from io import BytesIO
-from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
+# from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 def speak(text):
     tts = gTTS(text, lang='en')
@@ -155,9 +160,6 @@ def main_func():
     else:
         most_common = "No text detected."
     
-        # Release video capture
-    cap.release()
-    cv2.destroyAllWindows()
     return most_common
 
 # RTC_CONFIGURATION = RTCConfiguration(
@@ -169,10 +171,17 @@ st.title("Webcam Display Steamlit App")
 st.caption("Powered by OpenCV, Streamlit")
 
 if st.button("Start Detection"):
+
+    # Reset global counter for text occurrences across all frames
+    text_occurrences_global = Counter()
     
     detected_text = main_func()
-    
+
+    # Release video capture
+    cap.release()
+    cv2.destroyAllWindows()    
+
     # Display the most common text
     st.write("Most common text:", detected_text)
 
-    speak(detected_text)
+    audio_html = speak(detected_text)
