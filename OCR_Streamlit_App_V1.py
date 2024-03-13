@@ -168,19 +168,11 @@ st.set_page_config(page_title="Streamlit WebCam App")
 st.title("Webcam Display Steamlit App")
 st.caption("Powered by OpenCV, Streamlit")
 
-detected_text = main_func()
+if st.button("Start Detection"):
+    
+    detected_text = main_func()
+    
+    # Display the most common text
+    st.write("Most common text:", detected_text)
 
-# Display the most common text
-st.write("Most common text:", detected_text)
-
-speak(detected_text)
-
-
-
-# webrtc_ctx = webrtc_streamer(
-#     key="WYH",
-#     mode=WebRtcMode.SENDRECV,
-#     rtc_configuration=RTC_CONFIGURATION,
-#     media_stream_constraints={"video": True, "audio": False},
-#     async_processing=True,
-# )
+    speak(detected_text)
