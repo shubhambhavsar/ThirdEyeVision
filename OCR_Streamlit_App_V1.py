@@ -1,8 +1,3 @@
-from streamlit_webrtc import webrtc_streamer
-
-webrtc_streamer(key="sample")
-
-
 import cv2
 import torch
 from ultralytics import YOLO
@@ -17,13 +12,23 @@ from io import BytesIO
 # from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 
 def speak(text):
-    tts = gTTS(text, lang='en')
-    audio_bytes_io = BytesIO()
-    tts.write_to_fp(audio_bytes_io)
-    audio_bytes_io.seek(0)
-    audio_base64 = base64.b64encode(audio_bytes_io.read()).decode('utf-8')
-    audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'
-    st.components.v1.html(audio_html, height=50)
+    
+    tts = gTTS(text, lang='en')   # Create a text-to-speech object with the given text and language set to English
+    
+    audio_bytes_io = BytesIO() # Create a BytesIO object to hold the audio data
+    
+    tts.write_to_fp(audio_bytes_io)  # Write the audio data to the BytesIO object
+    
+    audio_bytes_io.seek(0)   #Seek to the beginning of the BytesIO stream
+    
+    audio_base64 = base64.b64encode(audio_bytes_io.read()).decode('utf-8')   # Encode the audio data in base64 to embed in HTML
+    
+    audio_html = f'<audio autoplay controls>
+                        <source src="data:audio/wav;base64,{audio_base64}" type="audio/wav">
+                   </audio>'  # Create the HTML code for an audio player with the encoded audio data
+    
+    st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
+
 
 # Replace the relative path to your weight file
 model_path = "best_Model_Roboflow.pt"
@@ -168,7 +173,6 @@ def main_func():
 
 st.set_page_config(page_title="Streamlit WebCam App")
 st.title("Webcam Display Steamlit App")
-st.caption("Powered by OpenCV, Streamlit")
 
 if st.button("Start Detection"):
 
