@@ -51,15 +51,20 @@ with st.sidebar:
             [1,2,3])       
 
 
-    if det_type == "Pedestrian" or det_type == "Alert":
+    if det_type == "Alert":
 
         # Model Options
         margin = float(st.slider(
-            "Select Model Margin", 0, 30, 25)) / 100
+            "Select Model Margin", 0, 10, 10)) / 100
+    if det_type == "Pedestrian":
+
+        # Model Options
+        margin = float(st.slider(
+            "Select Model Margin", 0, 25, 25)) / 100
         
     # Model Options
     confidence = float(st.slider(
-        "Select Model Confidence", 25, 100, 40)) / 100
+        "Select Model Confidence", 25, 100, 35)) / 100
 
 try:
     model = YOLO(model_path)

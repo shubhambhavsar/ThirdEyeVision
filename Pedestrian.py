@@ -24,6 +24,7 @@ def speak(text):
     st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
 
 
+
 # #initiate tts engine and define properties
 # engine=pyttsx3.init()
 # engine.setProperty('rate',100)
@@ -31,7 +32,7 @@ def speak(text):
 
 # Load YOLO models
 model_traffic = YOLO('yolov8n.pt')
-model_class = YOLO(r"bestclasscpr3.pt")
+model_class = YOLO("bestclasscpr3.pt")
 
 # cap = cv2.VideoCapture(r"C:\Users\user\OneDrive - Loyalist College\AIandDS\Term 2\Step_Presentation\Streamlit_Apps\sameer\walkstop.mp4")
 
@@ -40,7 +41,7 @@ def main_func_ped(cap, confidence, margin):
 
     frame_skip = 5  # Number of frames to skip between detections. Adjust based on your needs.
     frame_count = 0
-
+    st_frame = st.empty()
     
     pred=''
     while True:
@@ -50,9 +51,14 @@ def main_func_ped(cap, confidence, margin):
             
         # Process every nth frame (where n is frame_skip)
         if frame_count % frame_skip == 0:
-            results_traffic = model_traffic(frame,classes=[9],show=True,conf=confidence)
+            results_traffic = model_traffic(frame,classes=[9],conf=confidence)
             detected_boxes = results_traffic[0].boxes.data
             detected_boxes = detected_boxes.detach().cpu().numpy()
+            res_plotted = results_traffic[0].plot()
+            st_frame.image(res_plotted,
+                               caption='Detected Video',
+                               use_column_width=True,
+                               channels="BGR")
 
             for box in detected_boxes:
                 x1, y1, x2, y2 = map(int, box[:4])
@@ -77,7 +83,9 @@ def main_func_ped(cap, confidence, margin):
                     else:
                         data = speak(max_class_name)
                         pred = max_class_name
+                    
         frame_count += 1  # Increment frame counter
+        # st_frame.empty()
             
         # if cv2.waitKey(1) & 0xFF == ord('q'):
         #         break

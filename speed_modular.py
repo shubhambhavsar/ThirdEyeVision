@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import pandas as pd
 import cv2
-import pyttsx3
+# import pyttsx3
 import base64
 from gtts import gTTS
 from io import BytesIO
@@ -9,8 +9,9 @@ import streamlit as st
 
 
 
-def speak(text):
-    
+def tts(name):
+    text = f'Alert, {name} approaching!'
+
     tts = gTTS(text, lang='en')   # Create a text-to-speech object with the given text and language set to English
     
     audio_bytes_io = BytesIO() # Create a BytesIO object to hold the audio data
@@ -39,20 +40,20 @@ class_list = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'trai
 
 
 
-# Initialize the text-to-speech engine
-def init_engine():
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 130)
-    engine.setProperty('volume', 0.5)
-    return engine
+# # Initialize the text-to-speech engine
+# def init_engine():
+#     engine = pyttsx3.init()
+#     engine.setProperty('rate', 130)
+#     engine.setProperty('volume', 0.5)
+#     return engine
 
 
 
 
-#tts function
-def tts(name,engine):
-    engine.say(f'Alert, {name} approaching!')
-    engine.runAndWait()
+# #tts function
+# def tts(name,engine):
+#     engine.say(f'Alert, {name} approaching!')
+#     engine.runAndWait()
 
 
 
@@ -98,7 +99,7 @@ def penalty(list_id,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         pass   
     return car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle
 #checkpoint for tts
-def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle,engine):
+def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle):
     if car>fps2:
         first10_Car=area_car[:10]
         avg_first_car=sum(first10_Car)/len(first10_Car)
@@ -109,7 +110,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         percentage_increase_car = ((y_car - x_car) / x_car) * 100
         print(percentage_increase_car)
         if percentage_increase_car>0:
-            tts('car',engine)
+            tts('car')
             car=0
             area_car.clear()
             
@@ -126,7 +127,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         y_bus=avg_last_bus
         percentage_increase_bus = ((y_bus - x_bus) / x_bus) * 100
         if percentage_increase_bus>0:
-            tts('bus',engine)
+            tts('bus')
             bus=0
             area_bus.clear()
             
@@ -143,7 +144,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         y_truck=avg_last_truck
         percentage_increase_truck = ((y_truck - x_truck) / x_truck) * 100
         if percentage_increase_truck>0:
-            tts('truck',engine)
+            tts('truck')
             truck=0
             area_truck.clear()
             
@@ -161,7 +162,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         percentage_increase_cycle = ((y_cycle - x_cycle) / x_cycle) * 100
         print(percentage_increase_cycle)
         if percentage_increase_cycle>0:
-            tts('cycle',engine)
+            tts('cycle')
             cycle=0
             area_cycle.clear()
             
@@ -178,7 +179,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         y_bike=avg_last_bike
         percentage_increase_bike = ((y_bike - x_bike) / x_bike) * 100
         if percentage_increase_bike>0:
-            tts('bike',engine)
+            tts('bike')
             bike=0
             area_bike.clear()
             
@@ -189,8 +190,12 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
 
 # Process each frame
 def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle, margin):
-    results = model(cropped_frame, show=True,classes=user_class_id,conf=user_conf_value)
+    results = model(cropped_frame,classes=user_class_id,conf=user_conf_value)
     a=results[0].boxes.data
+
+    # Plotting and displaying the frame with detections (add this at the end of your function)
+    res_plotted = results[0].plot()
+
     a=a.detach().cpu().numpy()
     px = pd.DataFrame(a).astype("float")
     list_id=[]
@@ -270,10 +275,12 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
                 
         else:
             pass
-    return car, bus, truck, cycle, bike, area_car, area_bus, area_truck, area_bike, area_cycle
+
+
+    return car, bus, truck, cycle, bike, area_car, area_bus, area_truck, area_bike, area_cycle, res_plotted
 # Main function to run the program
 def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value):
-    engine = init_engine()
+    # engine = init_engine()
     # cap = cv2.VideoCapture(filepath)
     fps = cap.get(cv2.CAP_PROP_FPS)
     fps2 = fps * user_fps_value
@@ -302,19 +309,26 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
     area_bike=[]
     area_truck=[]
 
-
+    st_frame = st.empty()
     while True:
-        car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle=checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle,engine)
+        car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle=checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle)
         ret, frame = cap.read()
+        
         if not ret:
             break
         cropped_frame=preprocess(frame)
-        car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle=process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle, margin)
+        car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle,res_plotted =process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle, margin)
+        st_frame.image(res_plotted,
+                   caption='Detected Video',
+                   use_column_width=True,
+                   channels="BGR")
         print("Car count is:",car)  
         print("Cycle count is:",cycle) 
         print("Truck count is:",truck)
         print("Bus count is:",bus)
         print("Bike count is:",bike)
+    
+    st_frame.empty()
 
     cap.release()
     cv2.destroyAllWindows()
