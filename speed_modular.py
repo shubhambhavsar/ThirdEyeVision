@@ -27,6 +27,8 @@ def tts(name):
     st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
 
 model = YOLO('yolov8n.pt')
+prop_val = 0.0025
+perc = 15
 
 #classids
 #1=bicycle
@@ -60,11 +62,15 @@ class_list = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'trai
 #preprocess frame
 def preprocess(frame):
     height,width=frame.shape[:2]
-    crop_width=int(width*0.5)
-    crop_height=int(height*1)
-    start_x=(width-crop_width)//2
-    start_y=(height-crop_height)//2
-    c_frame=frame[start_y:start_y+crop_height,start_x:start_x+crop_width]
+    if height<width:
+
+        crop_width=int(width*0.5)
+        crop_height=int(height*1)
+        start_x=(width-crop_width)//2
+        start_y=(height-crop_height)//2
+        c_frame=frame[start_y:start_y+crop_height,start_x:start_x+crop_width]
+    else:
+        c_frame=frame
     return c_frame
 
 #penalty function for missed detect
@@ -108,8 +114,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         x_car=avg_first_car
         y_car=avg_last_car
         percentage_increase_car = ((y_car - x_car) / x_car) * 100
-        print(percentage_increase_car)
-        if percentage_increase_car>0:
+        if percentage_increase_car>perc:
             tts('car')
             car=0
             area_car.clear()
@@ -126,7 +131,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         x_bus=avg_first_bus
         y_bus=avg_last_bus
         percentage_increase_bus = ((y_bus - x_bus) / x_bus) * 100
-        if percentage_increase_bus>0:
+        if percentage_increase_bus>perc:
             tts('bus')
             bus=0
             area_bus.clear()
@@ -143,7 +148,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         x_truck=avg_first_truck
         y_truck=avg_last_truck
         percentage_increase_truck = ((y_truck - x_truck) / x_truck) * 100
-        if percentage_increase_truck>0:
+        if percentage_increase_truck>perc:
             tts('truck')
             truck=0
             area_truck.clear()
@@ -160,8 +165,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         x_cycle=avg_first_cycle
         y_cycle=avg_last_cycle
         percentage_increase_cycle = ((y_cycle - x_cycle) / x_cycle) * 100
-        print(percentage_increase_cycle)
-        if percentage_increase_cycle>0:
+        if percentage_increase_cycle>perc:
             tts('cycle')
             cycle=0
             area_cycle.clear()
@@ -178,7 +182,7 @@ def checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_b
         x_bike=avg_first_bike
         y_bike=avg_last_bike
         percentage_increase_bike = ((y_bike - x_bike) / x_bike) * 100
-        if percentage_increase_bike>0:
+        if percentage_increase_bike>perc:
             tts('bike')
             bike=0
             area_bike.clear()
@@ -195,6 +199,7 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
 
     # Plotting and displaying the frame with detections (add this at the end of your function)
     res_plotted = results[0].plot()
+
 
     a=a.detach().cpu().numpy()
     px = pd.DataFrame(a).astype("float")
@@ -216,11 +221,14 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             y2 = int(row[3])
             area=(x2-x1)*(y2-y1)
             prop=area/area_frame
-            if prop>0.001:
+            if prop>prop_val:
                 centre_car=x1+x2/2
                 if left_margin<centre_car<right_margin:
                     car=car+1
                     area_car.append(area)
+            else:
+                car=max(0,car-5)
+                area_car=area_car[5:]
                     
         elif 'bicycle' in c:
             x1 = int(row[0])
@@ -229,10 +237,12 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             y2 = int(row[3])
             area=(x2-x1)*(y2-y1)
             prop=area/area_frame
-            if prop>0.001:
+            if prop>prop_val:
                 cycle=cycle+1
                 area_cycle.append(area)
-                
+            else:
+                cycle=max(0,cycle-5)
+                area_cycle=area_cycle[5:]                
                 
                 
 
@@ -243,11 +253,14 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             y2 = int(row[3])
             area=(x2-x1)*(y2-y1)
             prop=area/area_frame
-            if prop>0.001:
+            if prop>prop_val:
                 centre_truck=x1+x2/2
                 if left_margin<centre_truck<right_margin:
                     truck=truck+1
                     area_truck.append(truck)
+            else:
+                truck=max(0,truck-5)
+                area_truck=area_truck[5:]                    
                     
         elif 'bus' in c:
             x1 = int(row[0])
@@ -256,11 +269,14 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             y2 = int(row[3])
             area=(x2-x1)*(y2-y1)         
             prop=area/area_frame
-            if prop>0.001:
+            if prop>prop_val:
                 centre_bus=x1+x2/2
                 if left_margin<centre_bus<right_margin:
                     bus=bus+1
                     area_bus.append(area)
+            else:
+                bus=max(0,bus-5)
+                area_bus=area_bus[5:]
                     
         elif 'motorcycle' in c:
             x1 = int(row[0])
@@ -269,14 +285,15 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             y2 = int(row[3])
             area=(x2-x1)*(y2-y1)       
             prop=area/area_frame
-            if prop>0.001:
+            if prop>prop_val:
                 bike=bike+1
                 area_bike.append(area)
+            else:
+                bike=max(0,bike-5)
+                area_bike=area_bike[5:]                
                 
         else:
             pass
-
-
     return car, bus, truck, cycle, bike, area_car, area_bus, area_truck, area_bike, area_cycle, res_plotted
 # Main function to run the program
 def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value):
@@ -313,7 +330,6 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
     while True:
         car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle=checkpoint(fps2,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle)
         ret, frame = cap.read()
-        
         if not ret:
             break
         cropped_frame=preprocess(frame)
@@ -321,14 +337,12 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
         st_frame.image(res_plotted,
                    caption='Detected Video',
                    use_column_width=True,
-                   channels="BGR")
+                   channels="BGR")        
         print("Car count is:",car)  
         print("Cycle count is:",cycle) 
         print("Truck count is:",truck)
         print("Bus count is:",bus)
         print("Bike count is:",bike)
-    
-    st_frame.empty()
 
     cap.release()
     cv2.destroyAllWindows()
