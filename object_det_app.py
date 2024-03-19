@@ -130,7 +130,7 @@ def main_func(cap, model, confidence):
         st_frame.image(res_plotted,
                                caption='Detected Video',
                                use_column_width=True,
-                               )
+                               channels="BGR")
         
         for street_plate in street_plates.boxes.data.tolist():
             x1, y1, x2, y2, _, _ = street_plate
