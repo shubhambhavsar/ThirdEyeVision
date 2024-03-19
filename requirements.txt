@@ -2,6 +2,7 @@
 opencv-python-headless
 ultralytics
 gTTS
+pyttsx3
 omegaconf
 Easyocr
 streamlit-webrtc
