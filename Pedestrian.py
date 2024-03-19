@@ -31,7 +31,7 @@ def speak(text):
 
 # Load YOLO models
 model_traffic = YOLO('yolov8n.pt')
-model_class = YOLO(r"C:\Users\user\OneDrive - Loyalist College\AIandDS\Term 2\Step_Presentation\Streamlit_Apps\sameer\bestclasscpr3.pt")
+model_class = YOLO(r"bestclasscpr3.pt")
 
 # cap = cv2.VideoCapture(r"C:\Users\user\OneDrive - Loyalist College\AIandDS\Term 2\Step_Presentation\Streamlit_Apps\sameer\walkstop.mp4")
 

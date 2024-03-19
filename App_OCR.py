@@ -10,7 +10,7 @@ from speed_modular import *
 im = Image.open('eye.png')
 
 # Replace the relative path to your weight file
-model_path = "C:/Users/user/OneDrive - Loyalist College/AIandDS/Term 2/Step_Presentation/Project_Backup/best_Model_Roboflow.pt"
+model_path = "best_Model_Roboflow.pt"
 
 # Setting page layout
 st.set_page_config(
