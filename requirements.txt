@@ -5,4 +5,4 @@ gTTS
 pyttsx3
 omegaconf
 Easyocr
-streamlit-webrtc
+streamlit_option_menu
