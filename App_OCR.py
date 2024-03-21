@@ -38,16 +38,16 @@ with st.sidebar:
             st.error(f"Error saving uploaded file: {e}")
 
     det_type = st.radio(
-        "Select the detection type",
+        "Select Detection Type",
         ["Street_Name", "Pedestrian", "Alert"])
     
     if det_type == "Alert":
         class_type = st.radio(
-            "Select the class type",
+            "Select Class Type",
             ['bicycle', 'car', 'motorcycle', 'bus', 'truck'])
 
         FPS = st.radio(
-            "Select the duration of seconds",
+            "Select Duration of Seconds",
             [1,2,3])       
 
 
