@@ -24,7 +24,7 @@ st.set_page_config(
 with st.sidebar:
     st.header("Image/Video Config")  # Adding header to sidebar
     # Adding file uploader to sidebar for selecting videos
-    uploaded_file = st.file_uploader("Choose a video...", type=["mp4", "mp3"])
+    uploaded_file = st.file_uploader("Choose a video...", type=["mp4"])
     temporary_location = None
 
     if uploaded_file is not None:
