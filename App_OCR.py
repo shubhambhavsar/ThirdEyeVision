@@ -47,7 +47,7 @@ with st.sidebar:
             ['bicycle', 'car', 'motorcycle', 'bus', 'truck'])
 
         FPS = st.radio(
-            "Select the FPS value",
+            "Select the duration of seconds",
             [1,2,3])       
 
 
