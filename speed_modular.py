@@ -6,7 +6,7 @@ import base64
 from gtts import gTTS
 from io import BytesIO
 import streamlit as st
-
+import time
 
 
 def tts(name):
@@ -301,6 +301,10 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
     # cap = cv2.VideoCapture(filepath)
     fps = cap.get(cv2.CAP_PROP_FPS)
     fps2 = fps * user_fps_value
+
+
+    # Start timing for total processing
+    total_start_time = time.time()  
     
     # initialize counters
     global car
@@ -332,8 +336,18 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
         ret, frame = cap.read()
         if not ret:
             break
+
+        # Start timing for model inference
+        start_time = time.time()  
+
         cropped_frame=preprocess(frame)
         car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle,res_plotted =process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycle,bike,area_car,area_bus,area_truck,area_bike,area_cycle, margin)
+        
+        end_time = time.time()
+
+        # Measure model inference time
+        model_inference_time = end_time - start_time  
+
         st_frame.image(res_plotted,
                    caption='Detected Video',
                    use_column_width=True,
@@ -347,5 +361,17 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
     cap.release()
     cv2.destroyAllWindows()
 
-# if __name__ == '__main__':
-#     main()
+
+    # Measure total processing time
+    total_time = time.time() - total_start_time 
+     # Calculate overhead time
+    overhead_time = total_time - model_inference_time 
+    model_fps = 1.0 / model_inference_time if model_inference_time > 0 else "Infinity"
+    total_fps = 1.0 / total_time if total_time > 0 else "Infinity"
+
+    # Display the performance metrics
+    st.write(f"Model Inference Time: {model_inference_time*1000:.2f}ms")
+    st.write(f"Total Time: {total_time*1000:.2f}ms")
+    st.write(f"Overhead Time: +{overhead_time*1000:.2f}ms")
+    st.write(f"Model FPS: {model_fps:.2f}fps")
+    st.write(f"Total FPS: {total_fps:.2f}fps") 

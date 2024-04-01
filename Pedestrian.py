@@ -6,6 +6,7 @@ import base64
 from gtts import gTTS
 from io import BytesIO
 import streamlit as st
+import time
 
 def speak(text):
     
@@ -42,6 +43,9 @@ def main_func_ped(cap, confidence, margin):
     frame_skip = 5  # Number of frames to skip between detections. Adjust based on your needs.
     frame_count = 0
     st_frame = st.empty()
+
+    # Start timing for total processing
+    total_start_time = time.time()  
     
     pred=''
     while True:
@@ -51,7 +55,16 @@ def main_func_ped(cap, confidence, margin):
             
         # Process every nth frame (where n is frame_skip)
         if frame_count % frame_skip == 0:
+
+            # Start timing for model inference
+            start_time = time.time()  
             results_traffic = model_traffic(frame,classes=[9],conf=confidence)
+            end_time = time.time()
+
+            # Measure model inference time
+            model_inference_time = end_time - start_time  
+
+
             detected_boxes = results_traffic[0].boxes.data
             detected_boxes = detected_boxes.detach().cpu().numpy()
             res_plotted = results_traffic[0].plot()
@@ -92,3 +105,17 @@ def main_func_ped(cap, confidence, margin):
 
     cap.release()
     cv2.destroyAllWindows()
+
+    # Measure total processing time
+    total_time = time.time() - total_start_time 
+     # Calculate overhead time
+    overhead_time = total_time - model_inference_time 
+    model_fps = 1.0 / model_inference_time if model_inference_time > 0 else "Infinity"
+    total_fps = 1.0 / total_time if total_time > 0 else "Infinity"
+
+    # Display the performance metrics
+    st.write(f"Model Inference Time: {model_inference_time*1000:.2f}ms")
+    st.write(f"Total Time: {total_time*1000:.2f}ms")
+    st.write(f"Overhead Time: +{overhead_time*1000:.2f}ms")
+    st.write(f"Model FPS: {model_fps:.2f}fps")
+    st.write(f"Total FPS: {total_fps:.2f}fps")    

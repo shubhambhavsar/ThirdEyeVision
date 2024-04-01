@@ -9,7 +9,7 @@ import streamlit as st
 import base64
 from gtts import gTTS
 from io import BytesIO
-
+import time
 
 
 def speak(text):
@@ -100,6 +100,7 @@ def getOCR(im, coors):
         else:
             return "" 
 
+
 def main_func(cap, model, confidence):
     # Initialize global counter for text occurrences across all frames
     text_occurrences_global = Counter()
@@ -111,6 +112,10 @@ def main_func(cap, model, confidence):
     n_frames_to_process = 20
     st_frame = st.empty()
 
+    # Start timing for total processing
+    total_start_time = time.time()  
+
+
     # Loop through video frames
     while cap.isOpened() and processed_frames_count < n_frames_to_process:
         ret, frame = cap.read()
@@ -119,8 +124,16 @@ def main_func(cap, model, confidence):
             # cv2.destroyAllWindows()
             break
 
+        # Start timing for model inference
+        start_time = time.time()  
+
         # Perform detection on the current frame
         results = model(frame, conf=confidence)
+
+        end_time = time.time()
+
+        # Measure model inference time
+        model_inference_time = end_time - start_time  
 
         # Iterate over detected objects
         # Assuming 'results' is obtained from your YOLO detection
@@ -157,5 +170,13 @@ def main_func(cap, model, confidence):
         most_common = most_common_text
     else:
         most_common = "No text detected."
+
+     # Measure total processing time
+    total_time = time.time() - total_start_time 
+     # Calculate overhead time
+    overhead_time = total_time - model_inference_time 
+    model_fps = 1.0 / model_inference_time if model_inference_time > 0 else "Infinity"
+    total_fps = 1.0 / total_time if total_time > 0 else "Infinity"
+
     
-    return most_common
+    return most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps

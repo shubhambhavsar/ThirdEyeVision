@@ -99,24 +99,28 @@ if selected == "HOME":
 
     # If a video has been uploaded and detected, start object detection
     if st.session_state.video_uploaded:
-
+        vid_cap = cv2.VideoCapture(temporary_location)
         if det_type == "Street_Name" and st.sidebar.button('Start Detection'):
-            vid_cap = cv2.VideoCapture(temporary_location)
-
-            detected_text = main_func(vid_cap, model, confidence)
+            
+            most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence)
 
             # Display the most common text
-            st.write("Most common text:", detected_text)
+            st.write("Most common text:", most_common)
 
-            audio_html = speak(detected_text)
+            # Display the performance metrics
+            st.write(f"Model Inference Time: {model_inference_time*1000:.2f}ms")
+            st.write(f"Total Time: {total_time*1000:.2f}ms")
+            st.write(f"Overhead Time: +{overhead_time*1000:.2f}ms")
+            st.write(f"Model FPS: {model_fps:.2f}fps")
+            st.write(f"Total FPS: {total_fps:.2f}fps")
+
+            audio_html = speak(most_common)
 
         if det_type == "Pedestrian" and st.sidebar.button('Start Detection'):
-            vid_cap = cv2.VideoCapture(temporary_location)
 
             main_func_ped(vid_cap, confidence, margin)
         
         if det_type == "Alert" and st.sidebar.button('Start Detection'):
-            vid_cap = cv2.VideoCapture(temporary_location)
             class_items = ['bicycle', 'car', 'motorcycle', 'bus', 'truck']
             assigned_numbers = [1, 2, 3, 5, 7]
 
