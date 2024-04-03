@@ -38,7 +38,7 @@ model_class = YOLO("bestclasscpr3.pt")
 # cap = cv2.VideoCapture(r"C:\Users\user\OneDrive - Loyalist College\AIandDS\Term 2\Step_Presentation\Streamlit_Apps\sameer\walkstop.mp4")
 
 
-def main_func_ped(cap, confidence, margin):
+def main_func_ped(cap, confidence, margin, vid_type):
 
     frame_skip = 5  # Number of frames to skip between detections. Adjust based on your needs.
     frame_count = 0
@@ -67,11 +67,14 @@ def main_func_ped(cap, confidence, margin):
 
             detected_boxes = results_traffic[0].boxes.data
             detected_boxes = detected_boxes.detach().cpu().numpy()
-            res_plotted = results_traffic[0].plot()
-            st_frame.image(res_plotted,
+            if vid_type == 'Show-Video':
+                res_plotted = results_traffic[0].plot()
+                st_frame.image(res_plotted,
                                caption='Detected Video',
                                use_column_width=True,
                                channels="BGR")
+            else:
+                st_frame = st.empty()
 
             for box in detected_boxes:
                 x1, y1, x2, y2 = map(int, box[:4])

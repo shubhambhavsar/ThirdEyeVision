@@ -101,7 +101,7 @@ def getOCR(im, coors):
             return "" 
 
 
-def main_func(cap, model, confidence):
+def main_func(cap, model, confidence, vid_type):
     # Initialize global counter for text occurrences across all frames
     text_occurrences_global = Counter()
 
@@ -139,11 +139,14 @@ def main_func(cap, model, confidence):
         # Assuming 'results' is obtained from your YOLO detection
         street_plates = results[0]
         result_tensor = results[0].boxes
-        res_plotted = results[0].plot()
-        st_frame.image(res_plotted,
+        if vid_type == "Show-Video":
+            res_plotted = results[0].plot()
+            st_frame.image(res_plotted,
                                caption='Detected Video',
                                use_column_width=True,
                                channels="BGR")
+        else:
+            st_frame = st.empty()
         
         for street_plate in street_plates.boxes.data.tolist():
             x1, y1, x2, y2, _, _ = street_plate

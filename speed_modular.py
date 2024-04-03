@@ -296,7 +296,7 @@ def process_frame(cropped_frame,user_conf_value,user_class_id,car,bus,truck,cycl
             pass
     return car, bus, truck, cycle, bike, area_car, area_bus, area_truck, area_bike, area_cycle, res_plotted
 # Main function to run the program
-def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value):
+def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value, vid_type):
     # engine = init_engine()
     # cap = cv2.VideoCapture(filepath)
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -347,16 +347,19 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value)
 
         # Measure model inference time
         model_inference_time = end_time - start_time  
-
-        st_frame.image(res_plotted,
+        if vid_type == 'Show-Video':
+            st_frame.image(res_plotted,
                    caption='Detected Video',
                    use_column_width=True,
                    channels="BGR")        
-        print("Car count is:",car)  
-        print("Cycle count is:",cycle) 
-        print("Truck count is:",truck)
-        print("Bus count is:",bus)
-        print("Bike count is:",bike)
+            print("Car count is:",car)  
+            print("Cycle count is:",cycle) 
+            print("Truck count is:",truck)
+            print("Bus count is:",bus)
+            print("Bike count is:",bike)
+        else:
+            st_frame = st.empty()
+
 
     cap.release()
     cv2.destroyAllWindows()

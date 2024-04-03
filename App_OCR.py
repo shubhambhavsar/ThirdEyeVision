@@ -97,12 +97,16 @@ selected = option_menu(
 if selected == "HOME":
     st.header("Upload the video file and click on the start detection")
 
+    vid_type = st.radio(
+        "Select If you want to see video",
+        ["Show-Video", "Hide-Video"])
+
     # If a video has been uploaded and detected, start object detection
     if st.session_state.video_uploaded:
         vid_cap = cv2.VideoCapture(temporary_location)
         if det_type == "Street_Name" and st.sidebar.button('Start Detection'):
             
-            most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence)
+            most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence, vid_type=vid_type)
 
             # Display the most common text
             st.write("Most common text:", most_common)
@@ -118,7 +122,7 @@ if selected == "HOME":
 
         if det_type == "Pedestrian" and st.sidebar.button('Start Detection'):
 
-            main_func_ped(vid_cap, confidence, margin)
+            main_func_ped(vid_cap, confidence, margin, vid_type=vid_type)
         
         if det_type == "Alert" and st.sidebar.button('Start Detection'):
             class_items = ['bicycle', 'car', 'motorcycle', 'bus', 'truck']
@@ -128,7 +132,7 @@ if selected == "HOME":
             item_to_number = dict(zip(class_items, assigned_numbers))
             class_no = item_to_number.get(class_type)
 
-            main_func_alert(vid_cap,user_conf_value=confidence, margin=margin, user_class_id=class_no, user_fps_value=FPS)
+            main_func_alert(vid_cap,user_conf_value=confidence, margin=margin, user_class_id=class_no, user_fps_value=FPS, vid_type=vid_type)
 
 
 if selected == "ABOUT":
