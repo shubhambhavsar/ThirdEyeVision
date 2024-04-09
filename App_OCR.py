@@ -246,7 +246,7 @@ def app_page():
     with st.sidebar:
         st.header("Image/Video Config")  # Adding header to sidebar
         # Adding file uploader to sidebar for selecting videos
-        uploaded_file = st.file_uploader("Choose a video...", type=["mp4"])
+        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png"])
         temporary_location = None
 
         if uploaded_file is not None:
@@ -264,7 +264,7 @@ def app_page():
             ["Street_Name", "Pedestrian", "Alert"])
         
         if det_type == "Alert":
-            class_type = st.radio(
+            class_type = st.multiselect(
                 "Select Class Type",
                 ['bicycle', 'car', 'motorcycle', 'bus', 'truck'])
 
@@ -356,7 +356,7 @@ def app_page():
 
                 # Creating a dictionary to map items to their assigned numbers
                 item_to_number = dict(zip(class_items, assigned_numbers))
-                class_no = item_to_number.get(class_type)
+                class_no = [item_to_number.get(item)for item in class_type if item in item_to_number]
 
                 main_func_alert(vid_cap,user_conf_value=confidence, margin=margin, user_class_id=class_no, user_fps_value=FPS, vid_type=vid_type)
 
