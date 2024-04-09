@@ -373,8 +373,11 @@ def main_func_alert(cap, user_conf_value, margin, user_class_id, user_fps_value,
     total_fps = 1.0 / total_time if total_time > 0 else "Infinity"
 
     # Display the performance metrics
-    st.write(f"Model Inference Time: {model_inference_time*1000:.2f}ms")
-    st.write(f"Total Time: {total_time*1000:.2f}ms")
-    st.write(f"Overhead Time: +{overhead_time*1000:.2f}ms")
-    st.write(f"Model FPS: {model_fps:.2f}fps")
-    st.write(f"Total FPS: {total_fps:.2f}fps") 
+    col1, col2, col3 = st.columns(3)
+    col1.metric(label="Model Inference Time", value=f"{model_inference_time*1000:.2f} ms")
+    col2.metric(label="Total Time", value=f"{total_time*1000:.2f} ms")
+    col3.metric(label="Overhead Time", value=f"+{overhead_time*1000:.2f} ms")
+
+    col4, col5, col6 = st.columns(3)
+    col4.metric(label="Model FPS", value=f"{model_fps:.2f} fps")
+    col5.metric(label="Total FPS", value=f"{total_fps:.2f} fps")
