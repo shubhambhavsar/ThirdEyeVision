@@ -78,6 +78,33 @@ def welcome_page():
     )
 
     if selected == "HOME":
+        st.markdown("""
+        <style>
+            .custom-font {
+                font-size:16px; /* Adjust the size as needed */
+                font-family: Arial, Helvetica, sans-serif; 
+            }
+            .highlight {
+                color: #3467eb;  /* Change the color as per your application theme */
+            }
+            .bold {
+                font-weight: bold;
+            }
+        </style>
+
+        <div class="custom-font">
+            Welcome to <span class="highlight bold">Third Eye!</span> Our application aims to support and help visually impaired individuals in navigating their surroundings better and be alert of dangers through text-to-speech.
+            <br><br>
+            We provide 3 types of computer vision detections:<br>
+            - <span class="bold">"Alert"</span> system lets you know about different types of vehicles and objects approaching you.<br>
+            - <span class="bold">"Street Name"</span> system lets you know about the street name.<br>
+            - <span class="bold">"Pedestrian"</span> system informs you about what is displayed on the Pedestrian crosswalk signal.<br>
+            <br>
+            To get started, you can either speak the keyword for the detection you require, or click on the <span class="highlight bold">Get Started</span> button to access more features and tweak parameters!<br><br>
+        </div>
+        """, unsafe_allow_html=True)
+
+
         if st.button("Get Started"):
             st.session_state['current_page'] = "data_science"
             st.experimental_rerun()
