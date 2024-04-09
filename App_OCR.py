@@ -256,19 +256,6 @@ def app_page():
     <span style='font-size: 24px'>Hello, {st.session_state.get('username', 'Guest')}!</span>
     """, unsafe_allow_html=True)
 
-    # im = Image.open('eye.png')
-
-    # # Replace the relative path to your weight file
-    # model_path = "best_Model_Roboflow.pt"
-
-    # # Setting page layout
-    # st.set_page_config(
-    #     page_title="Third Eye Vision",  # Setting page title
-    #     page_icon=im,  # Setting page icon
-    #     # layout="wide",      # Setting layout to wide
-    #     initial_sidebar_state="expanded"  # Expanding sidebar by default
-    # )
-
     # Creating sidebar
     with st.sidebar:
         st.header("Image/Video Config")  # Adding header to sidebar
