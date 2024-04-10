@@ -85,24 +85,23 @@ def speak_welc(text):
     
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
+if st.session_state == {}:
+    speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
 
-def audio_welc():
-    # Initialize the session state for welcome_message_played if it does not exist
-    if 'welcome_message_played' not in st.session_state:
-        st.session_state['welcome_message_played'] = False
 
-    # Check if the welcome message has been played
-    if not st.session_state['welcome_message_played']:
-        # Speak the welcome message
+def check_and_play_welcome_message():
+    # Check if the session state is empty
+    if len(st.session_state) == 0:
+        # Since the session state is empty, play the welcome message
         speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
-        # Set the flag to True to indicate the message has been played
+        
+        # After playing the welcome message, set a flag in the session state
         st.session_state['welcome_message_played'] = True
 
-def welcome_page():
-    # st.session_state
-    audio_welc()
-    st.session_state['welcome_message_played'] = False
 
+
+def welcome_page():
+    check_and_play_welcome_message()
     # Header Section
     css = """
     <style>
@@ -221,6 +220,9 @@ def welcome_page():
         if uploaded_file is not None and not st.session_state.video_uploaded:
             st.session_state.video_uploaded = True
             st.experimental_rerun()
+        
+        if st.session_state.video_uploaded == True:
+            speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
 
         # Let's assume `audio_segment` is your AudioSegment object
         audio_segment = audiorecorder("Click to record", "Click to stop recording")
@@ -601,12 +603,9 @@ def app_page():
 # Page routing
 if "current_page" not in st.session_state:
     st.session_state['current_page'] = "welcome"
-    audio_welc()
-    st.session_state['welcome_message_played'] = False
 if st.session_state['current_page'] == "welcome":
     welcome_page()
-    audio_welc()
-    st.session_state['welcome_message_played'] = False
+    # audio_welc()
 if st.session_state['current_page'] == "data_science":
     data_science_page()
 elif st.session_state['current_page'] == "app":
