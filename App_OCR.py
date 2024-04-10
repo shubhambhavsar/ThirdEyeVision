@@ -6,6 +6,7 @@ import cv2
 from object_det_app import *
 from Pedestrian import *
 from speed_modular import *
+import base64
 
 
 im = Image.open('eye.png')
@@ -66,7 +67,38 @@ init_db()  # Initialize the database
 
 def welcome_page():
     # Header Section
+    css = """
+    <style>
+        h1 {
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
     st.title("Third Eye Vision")
+
+    def set_background_image(image_path):
+        with open(image_path, "rb") as image_file:
+            # Encode the image as base64
+            encoded_string = base64.b64encode(image_file.read()).decode()
+    # Set the background image style
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image: url("data:image/jpeg;base64,{encoded_string}");
+                background-size: cover;
+                background-position: center;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+    )
+
+    image_path = r'image_bg.jpg'  # Replace this with the path to your image file
+    set_background_image(image_path)
+
+    
 
     selected = option_menu(
         menu_title=None,
@@ -78,7 +110,19 @@ def welcome_page():
     )
 
     if selected == "HOME":
+        # Add CSS to create a white background for text content
         st.markdown("""
+        <style>
+            .textbox {
+            background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
+            border-radius: 10px; /* Rounded corners */
+            padding: 10px; /* Some padding around the text */
+            margin: 10px 0; /* Some space above and below the text box */
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        st.markdown("""
+                    
         <style>
             .custom-font {
                 font-size:16px; /* Adjust the size as needed */
@@ -93,6 +137,7 @@ def welcome_page():
         </style>
 
         <div class="custom-font">
+            <div class="textbox">
             Welcome to <span class="highlight bold">Third Eye!</span> Our application aims to support and help visually impaired individuals in navigating their surroundings better and be alert of dangers through text-to-speech.
             <br><br>
             We provide 3 types of computer vision detections:<br>
@@ -111,17 +156,41 @@ def welcome_page():
 
     if selected == "ABOUT":
 
+    #    st.markdown("""
+    #    <style>
+    #        .textbox {
+    #        background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
+    #        border-radius: 10px; /* Rounded corners */
+    #        padding: 10px; /* Some padding around the text */
+    #        margin: 10px 0; /* Some space above and below the text box */
+    #    }
+    #        h1,h2,p,li {  /* Apply the styles to all text elements */
+    #        color: white;  /* White text color */
+    #    }
+    #    </style>
+    #    """, unsafe_allow_html=True)
+
+    #    st.markdown('<div class="textbox">', unsafe_allow_html=True)
+
+        css = """
+        <style>
+            h2,p,li {
+            color: white;
+            }
+        </style>
+        """
+        st.markdown(css,unsafe_allow_html=True)
         st.header("🚀 Elevate Independence")
         st.write("""
             "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
             """)
 
         st.header("🌟 Features")
-        st.markdown("""
-        - **Object Recognition:** Instantly identify obstacles, signage, and objects.
-        - **Text-to-Speech:** Hear descriptions of your surroundings, making navigation intuitive.
-        - **Navigation Support:** Get real-time assistance to move around safely and efficiently.
-        """)
+        st.write("""
+            - **Object Recognition:** Instantly identify obstacles, signage, and objects.
+            - **Text-to-Speech:** Hear descriptions of your surroundings, making navigation intuitive.
+            - **Navigation Support:** Get real-time assistance to move around safely and efficiently.
+            """)
 
         st.header("💡 How It Works")
         st.write("""
@@ -135,7 +204,22 @@ def welcome_page():
         Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
         """)
 
+        st.markdown('</div>', unsafe_allow_html=True)
+
+
+
     if selected == "CONTACT":
+
+        css = """
+        <style>
+            h2,p {
+            color: white;
+            }
+        </style>
+        """
+
+        st.markdown(css,unsafe_allow_html=True)
+
         # Add a Contact Us section
         st.header("📬 Contact Us")
         st.write(
