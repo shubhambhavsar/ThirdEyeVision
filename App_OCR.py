@@ -84,13 +84,17 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
-    global welcome_message_played
+    # Initialize the session state for welcome_message_played if it does not exist
+    if 'welcome_message_played' not in st.session_state:
+        st.session_state['welcome_message_played'] = False
+
     # Check if the welcome message has been played
-    if not welcome_message_played and st.session_state:
+    if not st.session_state['welcome_message_played']:
         # Speak the welcome message
         speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
         # Set the flag to True to indicate the message has been played
-        welcome_message_played = True
+        st.session_state['welcome_message_played'] = True
+        
     # Header Section
     css = """
     <style>
