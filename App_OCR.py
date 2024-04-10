@@ -120,18 +120,26 @@ def welcome_page():
     )
 
     if selected == "HOME":
-        # Add CSS to create a white background for text content
+        # Add CSS to create a white background for text content #262730
         st.markdown("""
         <style>
             .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
             background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
             padding: 10px; /* Some padding around the text */
-            margin: 10px 0; /* Some space above and below the text box */
         }
+
+        /* Override styles for dark theme */
+        @media (prefers-color-scheme: dark) {
+            .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
+            background-color: #262730; /* Semi-transparent white */
+            padding: 10px; /* Some padding around the text */                   
+        }
+        }            
+
         </style>
         """, unsafe_allow_html=True)
         st.markdown("""
-                    
+                                
         <style>
             .custom-font {
                 font-size:16px; /* Adjust the size as needed */
@@ -158,7 +166,7 @@ def welcome_page():
         </div>
         """, unsafe_allow_html=True)
 
-
+        st.write("")
         if st.button("Get Started"):
             st.session_state['current_page'] = "data_science"
             st.experimental_rerun()
@@ -252,6 +260,17 @@ def welcome_page():
     margin: 10px 0; /* Some space above and below the text box */
     }}
 
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="stFileUploader"] {{
+        background-color: #262730;
+        background-size: 180%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        padding: 10px; /* Some padding around the text */
+        margin: 10px 0; /* Some space above and below the text box */
+    }}}}
 
     </style>
     """
@@ -343,7 +362,7 @@ def data_science_page():
     set_background_image(image_path)
     page_bg_img = f"""
     <style>
-    [data-testid="stTab"] {{
+    [data-testid="stTab"]{{
     background-color: rgb(255, 255, 255);
     background-size: 180%;
     background-position: top left;
@@ -353,6 +372,30 @@ def data_science_page():
     margin: 10px 0; /* Some space above and below the text box */
     }}
 
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="stTab"]{{
+        background-color: #262730;
+        background-size: 180%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        padding: 10px; /* Some padding around the text */
+        margin: 10px 0; /* Some space above and below the text box */
+        }}}}
+
+
+    [data-testid="textInputRootElement"]{{
+    background-color: rgb(255, 255, 255);
+    border-color: black
+    }}
+
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="textInputRootElement"]{{
+        background-color: #262730;
+        border-color: white
+        }}}}
 
     </style>
     """
@@ -415,31 +458,60 @@ def data_science_page():
     
     if selected == "ABOUT":
 
-        st.header("🚀 Elevate Independence")
-        st.write("""
-            "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"],li{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
+    
+        with st.container():
+            st.markdown(css, unsafe_allow_html=True)
+            st.header("🚀 Elevate Independence")
+            st.write("""
+                "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
+                """)
+
+            st.header("🌟 Features")
+            st.markdown("""
+            - **Object Recognition:** Instantly identify obstacles, signage, and objects.
+            - **Text-to-Speech:** Hear descriptions of your surroundings, making navigation intuitive.
+            - **Navigation Support:** Get real-time assistance to move around safely and efficiently.
             """)
 
-        st.header("🌟 Features")
-        st.markdown("""
-        - **Object Recognition:** Instantly identify obstacles, signage, and objects.
-        - **Text-to-Speech:** Hear descriptions of your surroundings, making navigation intuitive.
-        - **Navigation Support:** Get real-time assistance to move around safely and efficiently.
-        """)
+            st.header("💡 How It Works")
+            st.write("""
+            By analyzing live video feeds, "Third Eye" detects and vocalizes the presence of obstacles and signage, converting visual information into audible guidance. This real-time support system is designed to promote greater inclusivity and accessibility, enhancing the daily lives of visually impaired individuals.
+            """)
 
-        st.header("💡 How It Works")
-        st.write("""
-        By analyzing live video feeds, "Third Eye" detects and vocalizes the presence of obstacles and signage, converting visual information into audible guidance. This real-time support system is designed to promote greater inclusivity and accessibility, enhancing the daily lives of visually impaired individuals.
-        """)
+            # Interactive demo or more information about the technology could go here
 
-        # Interactive demo or more information about the technology could go here
-
-        st.header("🌐 Join Our Community")
-        st.write("""
-        Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
-        """)
+            st.header("🌐 Join Our Community")
+            st.write("""
+            Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
+            """)
 
     if selected == "CONTACT":
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"]{
+            color: white;
+            }
+            [data-testid="stWidgetLabel"]{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
+
         # Add a Contact Us section
         st.header("📬 Contact Us")
         st.write(
