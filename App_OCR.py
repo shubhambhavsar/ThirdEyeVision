@@ -85,23 +85,8 @@ def speak_welc(text):
     
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
-if st.session_state == {}:
-    speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
-
-
-def check_and_play_welcome_message():
-    # Check if the session state is empty
-    if len(st.session_state) == 0:
-        # Since the session state is empty, play the welcome message
-        speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
-        
-        # After playing the welcome message, set a flag in the session state
-        st.session_state['welcome_message_played'] = True
-
-
 
 def welcome_page():
-    check_and_play_welcome_message()
     # Header Section
     css = """
     <style>
@@ -221,7 +206,7 @@ def welcome_page():
             st.session_state.video_uploaded = True
             st.experimental_rerun()
         
-        if st.session_state.video_uploaded == True:
+        if st.session_state.video_uploaded:
             speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
 
         # Let's assume `audio_segment` is your AudioSegment object
