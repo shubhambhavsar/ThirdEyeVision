@@ -227,7 +227,7 @@ def welcome_page():
                 except sr.UnknownValueError:
                     speak_welc("Sorry, could not understand the audio.")
                 except sr.RequestError as e:
-                    speak_welc("Sorry, could not understand the audio.")
+                    st.error(f"Error saving uploaded file: {e}")
 
         # If a video has been uploaded and detected, start object detection
         if st.session_state.video_uploaded:
