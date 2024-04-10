@@ -84,7 +84,7 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
-    st.write(st.session_state)
+    st.session_state
     global welcome_message_played
     # Check if the welcome message has been played
     if not welcome_message_played:
@@ -256,23 +256,6 @@ def welcome_page():
 
 
     if selected == "ABOUT":
-
-    #    st.markdown("""
-    #    <style>
-    #        .textbox {
-    #        background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
-    #        border-radius: 10px; /* Rounded corners */
-    #        padding: 10px; /* Some padding around the text */
-    #        margin: 10px 0; /* Some space above and below the text box */
-    #    }
-    #        h1,h2,p,li {  /* Apply the styles to all text elements */
-    #        color: white;  /* White text color */
-    #    }
-    #    </style>
-    #    """, unsafe_allow_html=True)
-
-    #    st.markdown('<div class="textbox">', unsafe_allow_html=True)
-
         css = """
         <style>
             h2,p,li {
