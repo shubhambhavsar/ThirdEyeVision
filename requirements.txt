@@ -6,3 +6,7 @@ pyttsx3
 omegaconf
 Easyocr
 streamlit-option-menu
+streamlit-audiorecorder
+SpeechRecognition
+ffmpeg-python
+ffprobe

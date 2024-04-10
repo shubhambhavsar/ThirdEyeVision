@@ -7,6 +7,9 @@ from object_det_app import *
 from Pedestrian import *
 from speed_modular import *
 import base64
+from audiorecorder import audiorecorder
+import speech_recognition as sr
+import tempfile
 
 
 im = Image.open('eye.png')
@@ -64,6 +67,21 @@ def authenticate(username, password):
 
 init_db()  # Initialize the database
 
+def speak_welc(text):
+    
+    tts = gTTS(text, lang='en')   # Create a text-to-speech object with the given text and language set to English
+    
+    audio_bytes_io = BytesIO() # Create a BytesIO object to hold the audio data
+    
+    tts.write_to_fp(audio_bytes_io)  # Write the audio data to the BytesIO object
+    
+    audio_bytes_io.seek(0)   #Seek to the beginning of the BytesIO stream
+    
+    audio_base64 = base64.b64encode(audio_bytes_io.read()).decode('utf-8')   # Encode the audio data in base64 to embed in HTML
+    
+    audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'  # Create the HTML code for an audio player with the encoded audio data
+    
+    st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
     # Header Section
@@ -110,6 +128,7 @@ def welcome_page():
     )
 
     if selected == "HOME":
+        speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
         # Add CSS to create a white background for text content
         st.markdown("""
         <style>
@@ -153,6 +172,81 @@ def welcome_page():
         if st.button("Get Started"):
             st.session_state['current_page'] = "data_science"
             st.experimental_rerun()
+
+        # Adding file uploader to sidebar for selecting videos
+        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png"])
+        temporary_location = None
+        text_ab = None
+
+        if uploaded_file is not None:
+            temporary_location = "testout_simple.mp4"
+            try:
+                with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
+                    out.write(uploaded_file.read())  ## Read bytes into file
+            except PermissionError:
+                st.error("Permission denied to write the temporary file. Please check your permissions.")
+            except Exception as e:
+                st.error(f"Error saving uploaded file: {e}")
+        
+        try:
+            model = YOLO(model_path)
+        except Exception as ex:
+            st.error(
+                f"Unable to load model. Check the specified path: {model_path}")
+            st.error(ex)
+
+        # Creating a session state to store the uploaded video's state
+        if 'video_uploaded' not in st.session_state:
+            st.session_state.video_uploaded = False
+
+        # Check if a new video has been uploaded
+        if uploaded_file is not None and not st.session_state.video_uploaded:
+            st.session_state.video_uploaded = True
+            st.experimental_rerun()
+
+        # Let's assume `audio_segment` is your AudioSegment object
+        audio_segment = audiorecorder("Click to record", "Click to stop recording")
+
+        # Initialize the recognizer
+        recognizer = sr.Recognizer()
+        text_ab = ""
+        # Step 1: Export the AudioSegment object to a temporary WAV file
+        with tempfile.NamedTemporaryFile(delete=True) as tmp:
+            file_name = f"{tmp.name}.wav"  # Temporary file name
+            audio_segment.export(file_name, format="wav")  # Export as WAV
+
+            # Step 2: Use the temporary WAV file with speech_recognition
+            with sr.AudioFile(file_name) as source:
+                audio_data = recognizer.record(source)  # Read the entire audio file
+                
+                # Attempt to recognize the speech in the audio
+                try:
+                    text_a = recognizer.recognize_google(audio_data)  # Using Google Web Speech API
+                    text_ab = text_a
+                    st.write(f"Recognized text: {text_a}")
+                except sr.UnknownValueError:
+                    speak_welc("Sorry, could not understand the audio.")
+                except sr.RequestError as e:
+                    speak_welc("Sorry, could not understand the audio.")
+
+        # If a video has been uploaded and detected, start object detection
+        if st.session_state.video_uploaded:
+            vid_cap = cv2.VideoCapture(temporary_location)
+            if text_ab.lower() == "street":
+                
+                most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence=0.35, vid_type="Show-Video")
+
+                # Display the most common text
+                st.write("Most common text:", most_common)
+
+                audio_html = speak(most_common)
+            if text_ab.lower() == "pedestrian":            
+                main_func_ped(vid_cap, confidence=0.35, margin=0.10, vid_type="Show-Video")
+
+            if text_ab.lower() == "alert":     
+                main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Show-Video")
+        text_ab = ""
+
 
     if selected == "ABOUT":
 
