@@ -84,6 +84,7 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
+    st.write(st.session_state)
     global welcome_message_played
     # Check if the welcome message has been played
     if not welcome_message_played:
@@ -180,7 +181,7 @@ def welcome_page():
             st.experimental_rerun()
 
         # Adding file uploader to sidebar for selecting videos
-        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png"])
+        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png", "mov"])
         temporary_location = None
         text_ab = None
 
@@ -444,7 +445,7 @@ def app_page():
     with st.sidebar:
         st.header("Image/Video Config")  # Adding header to sidebar
         # Adding file uploader to sidebar for selecting videos
-        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png"])
+        uploaded_file = st.file_uploader("Choose a video...", type=["mp4","jpg","png","mov"])
         temporary_location = None
 
         if uploaded_file is not None:
