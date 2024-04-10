@@ -84,6 +84,7 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
+    speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
     # Header Section
     css = """
     <style>
@@ -128,7 +129,6 @@ def welcome_page():
     )
 
     if selected == "HOME":
-        speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
         # Add CSS to create a white background for text content
         st.markdown("""
         <style>
@@ -227,7 +227,7 @@ def welcome_page():
                 except sr.UnknownValueError:
                     speak_welc("Sorry, could not understand the audio.")
                 except sr.RequestError as e:
-                    st.error(f"Error saving uploaded file: {e}")
+                    pass
 
         # If a video has been uploaded and detected, start object detection
         if st.session_state.video_uploaded:
