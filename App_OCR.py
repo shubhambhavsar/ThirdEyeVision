@@ -328,16 +328,21 @@ def welcome_page():
 
 
     if selected == "CONTACT":
-
-        css = """
+        css2 = """
         <style>
-            h2,p {
+            [data-testid="StyledLinkIconContainer"]{
             color: white;
             }
+            [data-testid="stWidgetLabel"]{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
         </style>
         """
+        st.markdown(css2, unsafe_allow_html=True)
 
-        st.markdown(css,unsafe_allow_html=True)
 
         # Add a Contact Us section
         st.header("📬 Contact Us")
