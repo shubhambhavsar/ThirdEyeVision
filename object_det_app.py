@@ -26,7 +26,7 @@ def speak(text):
     
     audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'  # Create the HTML code for an audio player with the encoded audio data
     
-    st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
+    st.components.v1.html(audio_html, height=20) # Use Streamlit's HTML component to display the audio player in the app
 
 def preprocess_for_ocr(im):
     if im is None or im.size == 0:
@@ -102,6 +102,13 @@ def getOCR(im, coors):
 
 
 def main_func(cap, model, confidence, vid_type):
+    frame_counter_slot = st.empty()
+    model_counter_slot=st.empty()
+    prev_time = 0
+    curr_time = 0								   
+								 
+				 
+				 
     # Initialize global counter for text occurrences across all frames
     text_occurrences_global = Counter()
 
@@ -113,7 +120,7 @@ def main_func(cap, model, confidence, vid_type):
     st_frame = st.empty()
 
     # Start timing for total processing
-    total_start_time = time.time()  
+    # total_start_time = time.time()  
 
 
     # Loop through video frames
@@ -162,6 +169,15 @@ def main_func(cap, model, confidence, vid_type):
         
         # Increment the processed frames counter
         processed_frames_count += 1
+        curr_time = time.time()
+        model_fps = 1 / (curr_time - prev_time)
+        prev_time = curr_time
+        frame_counter_slot.write(f'Model Fps: {model_fps:.2f}')
+        model_counter_slot.write(f"Model Inference Time: {model_inference_time*1000:.2f}ms")							   
+											   
+							 
+															   
+																							
     
     st_frame.empty()
 
@@ -173,13 +189,7 @@ def main_func(cap, model, confidence, vid_type):
         most_common = most_common_text
     else:
         most_common = "No text detected."
-
-     # Measure total processing time
-    total_time = time.time() - total_start_time 
-     # Calculate overhead time
-    overhead_time = total_time - model_inference_time 
-    model_fps = 1.0 / model_inference_time if model_inference_time > 0 else "Infinity"
-    total_fps = 1.0 / total_time if total_time > 0 else "Infinity"
+					  
 
     
-    return most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps
+    return most_common

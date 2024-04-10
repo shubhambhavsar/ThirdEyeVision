@@ -235,7 +235,7 @@ def welcome_page():
             vid_cap = cv2.VideoCapture(temporary_location)
             if text_ab.lower() == "street":
                 
-                most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence=0.35, vid_type="Hide-Video")
+                most_common= main_func(vid_cap, model, confidence=0.35, vid_type="Hide-Video")
 
                 # Display the most common text
                 st.write("Most common text:", most_common)
@@ -347,7 +347,7 @@ def welcome_page():
         # Add a Contact Us section
         st.header("📬 Contact Us")
         st.write(
-            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out. Fill out the form below or email us directly at contact-thirdeye@gmail.com.")
+            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out.")
 
         with st.form("contact_form"):
             name = st.text_input("Name", placeholder="Your Name")
@@ -520,7 +520,7 @@ def data_science_page():
         # Add a Contact Us section
         st.header("📬 Contact Us")
         st.write(
-            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out. Fill out the form below or email us directly at contact-thirdeye@gmail.com.")
+            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out.")
 
         with st.form("contact_form"):
             name = st.text_input("Name", placeholder="Your Name")
@@ -634,20 +634,10 @@ def app_page():
             vid_cap = cv2.VideoCapture(temporary_location)
             if det_type == "Street Name" and st.sidebar.button('Start Detection'):
                 
-                most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence, vid_type=vid_type)
+                most_common = main_func(vid_cap, model, confidence, vid_type=vid_type)
 
                 # Display the most common text
                 st.write("Most common text:", most_common)
-
-                # Display the performance metrics
-                col1, col2, col3 = st.columns(3)
-                col1.metric(label="Model Inference Time", value=f"{model_inference_time*1000:.2f} ms")
-                col2.metric(label="Total Time", value=f"{total_time*1000:.2f} ms")
-                col3.metric(label="Overhead Time", value=f"+{overhead_time*1000:.2f} ms")
-
-                col4, col5, col6 = st.columns(3)
-                col4.metric(label="Model FPS", value=f"{model_fps:.2f} fps")
-                col5.metric(label="Total FPS", value=f"{total_fps:.2f} fps")
 
                 audio_html = speak(most_common)
 
@@ -696,7 +686,7 @@ def app_page():
         # Add a Contact Us section
         st.header("📬 Contact Us")
         st.write(
-            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out. Fill out the form below or email us directly at contact-thirdeye@gmail.com.")
+            "We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, please don't hesitate to reach out.")
 
         with st.form("contact_form"):
             name = st.text_input("Name", placeholder="Your Name")
