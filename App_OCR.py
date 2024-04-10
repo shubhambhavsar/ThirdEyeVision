@@ -86,41 +86,30 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 
+def set_background_image(image_path):
+    with open(image_path, "rb") as image_file:
+        # Encode the image as base64
+        encoded_string = base64.b64encode(image_file.read()).decode()
+# Set the background image style
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpeg;base64,{encoded_string}");
+            background-size: cover;
+            background-position: center;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+)
+
+image_path = r'image_bg.jpg'  # Replace this with the path to your image file
+
+
 def welcome_page():
-    # Header Section
-    css = """
-    <style>
-        h1 {
-            color: white;
-        }
-    </style>
-    """
-    st.markdown(css, unsafe_allow_html=True)
-    st.title("Third Eye Vision")
-
-    def set_background_image(image_path):
-        with open(image_path, "rb") as image_file:
-            # Encode the image as base64
-            encoded_string = base64.b64encode(image_file.read()).decode()
-    # Set the background image style
-        st.markdown(
-            f"""
-            <style>
-            .stApp {{
-                background-image: url("data:image/jpeg;base64,{encoded_string}");
-                background-size: cover;
-                background-position: center;
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
-    )
-
-    image_path = r'image_bg.jpg'  # Replace this with the path to your image file
     set_background_image(image_path)
-
-    
-
+    st.title("Third Eye Vision")
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
@@ -134,9 +123,8 @@ def welcome_page():
         # Add CSS to create a white background for text content
         st.markdown("""
         <style>
-            .textbox {
+            .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
             background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
-            border-radius: 10px; /* Rounded corners */
             padding: 10px; /* Some padding around the text */
             margin: 10px 0; /* Some space above and below the text box */
         }
@@ -239,18 +227,48 @@ def welcome_page():
             vid_cap = cv2.VideoCapture(temporary_location)
             if text_ab.lower() == "street":
                 
-                most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence=0.35, vid_type="Show-Video")
+                most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence=0.35, vid_type="Hide-Video")
 
                 # Display the most common text
                 st.write("Most common text:", most_common)
 
                 audio_html = speak(most_common)
             if text_ab.lower() == "pedestrian":            
-                main_func_ped(vid_cap, confidence=0.35, margin=0.10, vid_type="Show-Video")
+                main_func_ped(vid_cap, confidence=0.35, margin=0.10, vid_type="Hide-Video")
 
             if text_ab.lower() == "alert":     
-                main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Show-Video")
+                main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Hide-Video")
         text_ab = ""
+
+    page_bg_img = f"""
+    <style>
+    [data-testid="stFileUploader"] {{
+    background-color: rgb(255, 255, 255);
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    padding: 10px; /* Some padding around the text */
+    margin: 10px 0; /* Some space above and below the text box */
+    }}
+
+
+    </style>
+    """
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+    # Header Section
+    css = """
+    <style>
+        h1{
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+
 
 
     if selected == "ABOUT":
@@ -322,6 +340,36 @@ def welcome_page():
 
 # Data Scientist page
 def data_science_page():
+    set_background_image(image_path)
+    page_bg_img = f"""
+    <style>
+    [data-testid="stTab"] {{
+    background-color: rgb(255, 255, 255);
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    padding: 10px; /* Some padding around the text */
+    margin: 10px 0; /* Some space above and below the text box */
+    }}
+
+
+    </style>
+    """
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+    # Header Section
+    css = """
+    <style>
+        h1 {
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+
     col1, col2 = st.columns([0.9, 0.18])  # Adjust the ratio as needed
     with col2:
         if st.button("Home Page"):
