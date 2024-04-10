@@ -101,6 +101,7 @@ def audio_welc():
 def welcome_page():
     # st.session_state
     audio_welc()
+    st.session_state['welcome_message_played'] = False
 
     # Header Section
     css = """
@@ -601,9 +602,11 @@ def app_page():
 if "current_page" not in st.session_state:
     st.session_state['current_page'] = "welcome"
     audio_welc()
+    st.session_state['welcome_message_played'] = False
 if st.session_state['current_page'] == "welcome":
     welcome_page()
     audio_welc()
+    st.session_state['welcome_message_played'] = False
 if st.session_state['current_page'] == "data_science":
     data_science_page()
 elif st.session_state['current_page'] == "app":
