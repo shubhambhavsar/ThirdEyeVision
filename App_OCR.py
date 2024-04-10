@@ -11,7 +11,9 @@ from audiorecorder import audiorecorder
 import speech_recognition as sr
 import tempfile
 
-welcome_message_played = False
+# welcome_message_played = False
+
+
 im = Image.open('eye.png')
 
 # Replace the relative path to your weight file
@@ -83,7 +85,8 @@ def speak_welc(text):
     
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
-def welcome_page():
+
+def audio_welc():
     # Initialize the session state for welcome_message_played if it does not exist
     if 'welcome_message_played' not in st.session_state:
         st.session_state['welcome_message_played'] = False
@@ -94,7 +97,11 @@ def welcome_page():
         speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
         # Set the flag to True to indicate the message has been played
         st.session_state['welcome_message_played'] = True
-        
+
+def welcome_page():
+    # st.session_state
+    audio_welc()
+
     # Header Section
     css = """
     <style>
@@ -593,9 +600,10 @@ def app_page():
 # Page routing
 if "current_page" not in st.session_state:
     st.session_state['current_page'] = "welcome"
-
+    audio_welc()
 if st.session_state['current_page'] == "welcome":
     welcome_page()
+    audio_welc()
 if st.session_state['current_page'] == "data_science":
     data_science_page()
 elif st.session_state['current_page'] == "app":
