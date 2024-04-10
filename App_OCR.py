@@ -84,10 +84,10 @@ def speak_welc(text):
     st.components.v1.html(audio_html, height=0) # Use Streamlit's HTML component to display the audio player in the app
 
 def welcome_page():
-    st.session_state
+    # st.session_state
     global welcome_message_played
     # Check if the welcome message has been played
-    if not welcome_message_played:
+    if not welcome_message_played and  'welcome' in st.session_state:
         # Speak the welcome message
         speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
         # Set the flag to True to indicate the message has been played
@@ -443,7 +443,7 @@ def app_page():
 
         det_type = st.radio(
             "Select Detection Type",
-            ["Street_Name", "Pedestrian", "Alert"])
+            ["Street Name", "Pedestrian", "Alert"])
         
         if det_type == "Alert":
             class_type = st.multiselect(
@@ -509,7 +509,7 @@ def app_page():
         # If a video has been uploaded and detected, start object detection
         if st.session_state.video_uploaded:
             vid_cap = cv2.VideoCapture(temporary_location)
-            if det_type == "Street_Name" and st.sidebar.button('Start Detection'):
+            if det_type == "Street Name" and st.sidebar.button('Start Detection'):
                 
                 most_common, model_inference_time, total_time, overhead_time, model_fps, total_fps = main_func(vid_cap, model, confidence, vid_type=vid_type)
 
