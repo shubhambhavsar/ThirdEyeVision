@@ -26,7 +26,7 @@ def speak(text):
     
     audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'  # Create the HTML code for an audio player with the encoded audio data
     
-    st.components.v1.html(audio_html, height=20) # Use Streamlit's HTML component to display the audio player in the app
+    st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
 
 def preprocess_for_ocr(im):
     if im is None or im.size == 0:

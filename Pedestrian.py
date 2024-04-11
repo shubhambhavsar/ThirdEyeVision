@@ -24,7 +24,7 @@ def speak(text):
     
     audio_html = f'<audio autoplay controls><source src="data:audio/wav;base64,{audio_base64}" type="audio/wav"></audio>'  # Create the HTML code for an audio player with the encoded audio data
     
-    st.components.v1.html(audio_html, height=20) # Use Streamlit's HTML component to display the audio player in the app
+    st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
 
 
 # Load YOLO models
@@ -38,7 +38,8 @@ def main_func_ped(cap, confidence, margin, vid_type):
     model_counter_slot=st.empty()
     prev_time = 0
     curr_time = 0	
-    
+    st_frame = st.empty()
+
     
     pred=''
     while True:
@@ -69,6 +70,14 @@ def main_func_ped(cap, confidence, margin, vid_type):
         model_inference_time = end_time - start_time 
         a=results_obj[0].boxes.data
         a=a.detach().cpu().numpy()
+        if vid_type == 'Show-Video':
+            res_plotted = results_obj[0].plot()
+            st_frame.image(res_plotted,
+                            caption='Detected Video',
+                            use_column_width=True,
+                            channels="BGR")
+        else:
+            st_frame = st.empty()
         px = pd.DataFrame(a).astype("float")
         if len(px)==0 or len(px)==2:
             # Start timing for model inference
@@ -83,14 +92,14 @@ def main_func_ped(cap, confidence, margin, vid_type):
             
             detected_boxes = results_traffic[0].boxes.data
             detected_boxes = detected_boxes.detach().cpu().numpy()
-            if vid_type == 'Show-Video':
-                res_plotted = results_traffic[0].plot()
-                st_frame.image(res_plotted,
-                            caption='Detected Video',
-                            use_column_width=True,
-                            channels="BGR")
-            else:
-                st_frame = st.empty()
+            # if vid_type == 'Show-Video':
+            #     res_plotted = results_traffic[0].plot()
+            #     st_frame.image(res_plotted,
+            #                 caption='Detected Video',
+            #                 use_column_width=True,
+            #                 channels="BGR")
+            # else:
+            #     st_frame = st.empty()
     
             for box in detected_boxes:
                 x1, y1, x2, y2 = map(int, box[:4])
@@ -109,7 +118,7 @@ def main_func_ped(cap, confidence, margin, vid_type):
     
                     max_prob_index = np.argmax(probs)  # Index of highest probability
                     max_class_name = results_class[0].names[max_prob_index]  # Class name of highest probability
-                    max_prob = probs[max_prob_index]  # Maximum probability value
+                    max_prob = probs[max_prob_index]  # Maximum probabiliy vatlue
                     if pred==max_class_name or max_class_name=='ignore':
                         pass
                     else:
