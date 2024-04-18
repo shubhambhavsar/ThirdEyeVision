@@ -14,10 +14,10 @@ import tempfile
 # welcome_message_played = False
 
 
-im = Image.open(r'eye.png')
+im = Image.open('eye.png')
 
 # Replace the relative path to your weight file
-model_path = r"OCR.pt"
+model_path = "OCR.pt"
 # Setting page layout
 st.set_page_config(
         page_title="Third Eye Vision",  # Setting page title
@@ -108,12 +108,12 @@ image_path = r'image_bg.jpg'  # Replace this with the path to your image file
 
 
 def welcome_page():
-    # set_background_image(image_path)
+    set_background_image(image_path)
     st.title("Third Eye Vision")
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=[r"house", r"briefcase", r"person-lines-fill"],
+        icons=["house", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -121,6 +121,23 @@ def welcome_page():
 
     if selected == "HOME":
         # Add CSS to create a white background for text content #262730
+        st.markdown("""
+        <style>
+            .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
+            background-color: rgba(255, 255, 255, 1); /* Semi-transparent white */
+            padding: 10px; /* Some padding around the text */
+        }
+
+        /* Override styles for dark theme */
+        @media (prefers-color-scheme: dark) {
+            .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
+            background-color: #262730; /* Semi-transparent white */
+            padding: 10px; /* Some padding around the text */                   
+        }
+        }            
+
+        </style>
+        """, unsafe_allow_html=True)
         st.markdown("""
                                 
         <style>
@@ -231,11 +248,57 @@ def welcome_page():
                 main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Hide-Video")
         text_ab = ""
 
+    page_bg_img = f"""
+    <style>
+    [data-testid="stFileUploader"] {{
+    background-color: rgb(255, 255, 255);
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    padding: 10px; /* Some padding around the text */
+    margin: 10px 0; /* Some space above and below the text box */
+    }}
+
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="stFileUploader"] {{
+        background-color: #262730;
+        background-size: 180%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        padding: 10px; /* Some padding around the text */
+        margin: 10px 0; /* Some space above and below the text box */
+    }}}}
+
+    </style>
+    """
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+    # Header Section
+    css = """
+    <style>
+        h1{
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
 
 
 
 
     if selected == "ABOUT":
+        css = """
+        <style>
+            h2,p,li {
+            color: white;
+            }
+        </style>
+        """
+        st.markdown(css,unsafe_allow_html=True)
         st.header("🚀 Elevate Independence")
         st.write("""
             "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
@@ -265,6 +328,21 @@ def welcome_page():
 
 
     if selected == "CONTACT":
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"]{
+            color: white;
+            }
+            [data-testid="stWidgetLabel"]{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
+
 
         # Add a Contact Us section
         st.header("📬 Contact Us")
@@ -286,6 +364,60 @@ def welcome_page():
 
 # Data Scientist page
 def data_science_page():
+    set_background_image(image_path)
+    page_bg_img = f"""
+    <style>
+    [data-testid="stTab"]{{
+    background-color: rgb(255, 255, 255);
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    padding: 10px; /* Some padding around the text */
+    margin: 10px 0; /* Some space above and below the text box */
+    }}
+
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="stTab"]{{
+        background-color: #262730;
+        background-size: 180%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        padding: 10px; /* Some padding around the text */
+        margin: 10px 0; /* Some space above and below the text box */
+        }}}}
+
+
+    [data-testid="textInputRootElement"]{{
+    background-color: rgb(255, 255, 255);
+    border-color: black
+    }}
+
+    /* Override styles for dark theme */
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="textInputRootElement"]{{
+        background-color: #262730;
+        border-color: white
+        }}}}
+
+    </style>
+    """
+
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+    # Header Section
+    css = """
+    <style>
+        h1 {
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
+
+
     col1, col2 = st.columns([0.9, 0.18])  # Adjust the ratio as needed
     with col2:
         if st.button("Home Page"):
@@ -296,7 +428,7 @@ def data_science_page():
     selected = option_menu(
         menu_title=None,
         options=["SIGN UP / LOGIN", "ABOUT", "CONTACT"],
-        icons=["", r"briefcase", r"person-lines-fill"],
+        icons=["", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -330,33 +462,60 @@ def data_science_page():
                     st.error("This username is already taken.")
     
     if selected == "ABOUT":
-    
-        st.header("🚀 Elevate Independence")
-        st.write("""
-            "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
-            """)
 
-        st.header("🌟 Features")
-        st.write("""
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"],li{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
+    
+        with st.container():
+            st.markdown(css, unsafe_allow_html=True)
+            st.header("🚀 Elevate Independence")
+            st.write("""
+                "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
+                """)
+
+            st.header("🌟 Features")
+            st.markdown("""
             - **Object Recognition:** Instantly identify obstacles, signage, and objects.
             - **Text-to-Speech:** Hear descriptions of your surroundings, making navigation intuitive.
             - **Navigation Support:** Get real-time assistance to move around safely and efficiently.
             """)
 
-        st.header("💡 How It Works")
-        st.write("""
-        By analyzing live video feeds, "Third Eye" detects and vocalizes the presence of obstacles and signage, converting visual information into audible guidance. This real-time support system is designed to promote greater inclusivity and accessibility, enhancing the daily lives of visually impaired individuals.
-        """)
+            st.header("💡 How It Works")
+            st.write("""
+            By analyzing live video feeds, "Third Eye" detects and vocalizes the presence of obstacles and signage, converting visual information into audible guidance. This real-time support system is designed to promote greater inclusivity and accessibility, enhancing the daily lives of visually impaired individuals.
+            """)
 
-        # Interactive demo or more information about the technology could go here
+            # Interactive demo or more information about the technology could go here
 
-        st.header("🌐 Join Our Community")
-        st.write("""
-        Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
-        """)
+            st.header("🌐 Join Our Community")
+            st.write("""
+            Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
+            """)
 
-        st.markdown('</div>', unsafe_allow_html=True)
     if selected == "CONTACT":
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"]{
+            color: white;
+            }
+            [data-testid="stWidgetLabel"]{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
 
         # Add a Contact Us section
         st.header("📬 Contact Us")
@@ -460,7 +619,7 @@ def app_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=[r"house", r"briefcase", r"person-lines-fill"],
+        icons=["house", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
