@@ -26,7 +26,7 @@ def tts(name):
     
     st.components.v1.html(audio_html, height=50) # Use Streamlit's HTML component to display the audio player in the app
 
-model = YOLO(r"C:\Users\user\Documents\Streamlit_app\ML_Models\yolov8n.pt")
+model = YOLO(r"ML_Models\yolov8n.pt")
 prop_val = 0.0025
 perc = 15
 

@@ -17,7 +17,7 @@ import tempfile
 im = Image.open(r'Images/eye.png')
 
 # Replace the relative path to your weight file
-model_path = r"C:\Users\user\Documents\Streamlit_app\ML_Models\OCR.pt"
+model_path = r"ML_Models\OCR.pt"
 # Setting page layout
 st.set_page_config(
         page_title="Third Eye Vision",  # Setting page title

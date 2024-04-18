@@ -28,9 +28,9 @@ def speak(text):
 
 
 # Load YOLO models
-model_traffic = YOLO(r"C:\Users\user\Documents\Streamlit_app\ML_Models\yolov8n.pt")
-model_class = YOLO(r"C:\Users\user\Documents\Streamlit_app\ML_Models\bestclasscpr3.pt")
-model_obj = YOLO(r"C:\Users\user\Documents\Streamlit_app\ML_Models\bestgrayscale.pt")
+model_traffic = YOLO(r"ML_Models\yolov8n.pt")
+model_class = YOLO(r"ML_Models\bestclasscpr3.pt")
+model_obj = YOLO(r"ML_Models\bestgrayscale.pt")
 
 
 def main_func_ped(cap, confidence, margin, vid_type):
