@@ -305,14 +305,14 @@ def welcome_page():
 
 
     if selected == "ABOUT":
-        # css = """
-        # <style>
-        #     h2,p,li {
-        #     color: white;
-        #     }
-        # </style>
-        # """
-        # st.markdown(css,unsafe_allow_html=True)
+        css = """
+        <style>
+            h2,p,li {
+            color: white;
+            }
+        </style>
+        """
+        st.markdown(css,unsafe_allow_html=True)
         st.header("🚀 Elevate Independence")
         st.write("""
             "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
@@ -342,20 +342,20 @@ def welcome_page():
 
 
     if selected == "CONTACT":
-        # css2 = """
-        # <style>
-        #     [data-testid="StyledLinkIconContainer"]{
-        #     color: white;
-        #     }
-        #     [data-testid="stWidgetLabel"]{
-        #     color: white;
-        #     }
-        # .st-emotion-cache-eqffof.e1nzilvr5 p {
-        #     color: white;
-        # }
-        # </style>
-        # """
-        # st.markdown(css2, unsafe_allow_html=True)
+        css2 = """
+        <style>
+            [data-testid="StyledLinkIconContainer"]{
+            color: white;
+            }
+            [data-testid="stWidgetLabel"]{
+            color: white;
+            }
+        .st-emotion-cache-eqffof.e1nzilvr5 p {
+            color: white;
+        }
+        </style>
+        """
+        st.markdown(css2, unsafe_allow_html=True)
 
 
         # Add a Contact Us section
