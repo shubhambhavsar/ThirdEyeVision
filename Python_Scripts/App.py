@@ -96,7 +96,7 @@ def set_background_image(image_path):
     with open(image_path, "rb") as image_file:
         # Encode the image as base64
         encoded_string = base64.b64encode(image_file.read()).decode()
-# Set the background image style
+    # Set the background image style
     st.markdown(
         f"""
         <style>
@@ -120,7 +120,7 @@ def welcome_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["Images//house", "Images//briefcase", "Images//person-lines-fill"],
+        icons=["Images//house.svg", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -206,11 +206,23 @@ def welcome_page():
 
         if 'play_audio' not in st.session_state:           
             st.session_state.play_audio = False
+        
+        if 'initiate_street_audio' not in st.session_state:           
+            st.session_state.initiate_street_audio = False
+
+        if 'initiate_alert' not in st.session_state:           
+            st.session_state.initiate_alert = False
+
+        if 'initiate_pedestrian' not in st.session_state:           
+            st.session_state.initiate_pedestrian = False
 
         # Check if a new video has been uploaded
         if uploaded_file is not None and not st.session_state.video_uploaded:
             st.session_state.video_uploaded = True
             st.session_state.play_audio = True
+            st.session_state.initiate_street_audio = True
+            st.session_state.initiate_alert = True
+            st.session_state.initiate_pedestrian = True
             st.experimental_rerun()
         
         if st.session_state.play_audio:
@@ -248,17 +260,34 @@ def welcome_page():
         if st.session_state.video_uploaded:
             vid_cap = cv2.VideoCapture(temporary_location)
             if text_ab.lower() == "street":
-                
+                if st.session_state.initiate_street_audio:
+                    msg = "Initiating street detection sytem"
+                    speak_welc(msg)
+                    msg = ""
+                    st.session_state.initiate_street_audio = False
+
                 most_common= main_func(vid_cap, model, confidence=0.35, vid_type="Hide-Video")
 
                 # Display the most common text
                 st.write("Most common text:", most_common)
 
                 audio_html = speak(most_common)
-            if text_ab.lower() == "pedestrian":            
+            if text_ab.lower() == "pedestrian":
+                if st.session_state.initiate_pedestrian:
+                    msg = "Initiating pedestrian sytem"
+                    speak_welc(msg)
+                    msg = ""
+                    st.session_state.initiate_pedestrian = False
+
                 main_func_ped(vid_cap, confidence=0.35, margin=0.10, vid_type="Hide-Video")
 
             if text_ab.lower() == "alert":     
+                if st.session_state.initiate_alert:
+                    msg = "Initiating alert sytem"
+                    speak_welc(msg)
+                    msg = ""
+                    st.session_state.initiate_alert = False
+
                 main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Hide-Video")
         text_ab = ""
 
@@ -389,7 +418,7 @@ def data_science_page():
     selected = option_menu(
         menu_title=None,
         options=["SIGN UP / LOGIN", "ABOUT", "CONTACT"],
-        icons=["", "Images//briefcase", "Images//person-lines-fill"],
+        icons=["", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -553,7 +582,7 @@ def app_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["Images//house", "Images//briefcase", "Images//person-lines-fill"],
+        icons=["Images//house.svg", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -644,10 +673,3 @@ if st.session_state['current_page'] == "data_science":
     data_science_page()
 elif st.session_state['current_page'] == "app":
     app_page()
-
-
-
-
-
-# image  reference
-# <a href="https://www.flaticon.com/free-icons/password" title="password icons">Password icons created by Pixel perfect - Flaticon</a>
