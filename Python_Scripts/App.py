@@ -120,7 +120,7 @@ def welcome_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["Images//house.svg", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
+        icons=[r"Images/house.svg", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -418,7 +418,7 @@ def data_science_page():
     selected = option_menu(
         menu_title=None,
         options=["SIGN UP / LOGIN", "ABOUT", "CONTACT"],
-        icons=["", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
+        icons=["", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -582,7 +582,7 @@ def app_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["Images//house.svg", "Images//briefcase.svg", "Images//person-lines-fill.svg"],
+        icons=[r"Images/house.svg", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
