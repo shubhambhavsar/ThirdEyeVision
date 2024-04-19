@@ -261,7 +261,7 @@ def welcome_page():
             vid_cap = cv2.VideoCapture(temporary_location)
             if text_ab.lower() == "street":
                 if st.session_state.initiate_street_audio:
-                    msg = "Initiating street detection sytem"
+                    msg = "Initiating street detection system"
                     speak_welc(msg)
                     msg = ""
                     st.session_state.initiate_street_audio = False
@@ -274,7 +274,7 @@ def welcome_page():
                 audio_html = speak(most_common)
             if text_ab.lower() == "pedestrian":
                 if st.session_state.initiate_pedestrian:
-                    msg = "Initiating pedestrian sytem"
+                    msg = "Initiating pedestrian system"
                     speak_welc(msg)
                     msg = ""
                     st.session_state.initiate_pedestrian = False
@@ -283,7 +283,7 @@ def welcome_page():
 
             if text_ab.lower() == "alert":     
                 if st.session_state.initiate_alert:
-                    msg = "Initiating alert sytem"
+                    msg = "Initiating alert system"
                     speak_welc(msg)
                     msg = ""
                     st.session_state.initiate_alert = False
