@@ -10,14 +10,19 @@ import base64
 from audiorecorder import audiorecorder
 import speech_recognition as sr
 import tempfile
+import sqlite3
+from hashlib import sha256
 
-# welcome_message_played = False
+# Page Icon
+im = Image.open(r'Images/eye.png')
 
-
-im = Image.open('eye.png')
-
-# Replace the relative path to your weight file
+# OCR Model Path
 model_path = "OCR.pt"
+
+# Background Image Path
+image_path = r'Images/image_bg.jpg'
+
+# --------------------------------------------- Configuring Page ---------------------------------------------------------------------------------------------
 # Setting page layout
 st.set_page_config(
         page_title="Third Eye Vision",  # Setting page title
@@ -26,10 +31,8 @@ st.set_page_config(
         initial_sidebar_state="expanded"  # Expanding sidebar by default
     )
 
-import sqlite3
-from hashlib import sha256
 
-# Database setup
+# ---------------------------------------------- Database setup start ------------------------------------------------------------------------------------------------
 DB_FILE = 'users.db'
 
 def init_db():
@@ -69,6 +72,9 @@ def authenticate(username, password):
 
 init_db()  # Initialize the database
 
+# ------------------------------------------------ Database setup end ---------------------------------------------------------------------------------------------------
+
+
 def speak_welc(text):
     
     tts = gTTS(text, lang='en')   # Create a text-to-speech object with the given text and language set to English
@@ -104,16 +110,17 @@ def set_background_image(image_path):
         unsafe_allow_html=True
 )
 
-image_path = r'image_bg.jpg'  # Replace this with the path to your image file
 
 
+
+# ------------------------------------ Welcome Page Setup ---------------------------------------------------------------------------------------------------------------
 def welcome_page():
     set_background_image(image_path)
     st.title("Third Eye Vision")
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["house", "briefcase", "person-lines-fill"],
+        icons=["Images//house", "Images//briefcase", "Images//person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -362,7 +369,7 @@ def welcome_page():
                 st.success(f"Thank you, {name}, for reaching out! We'll get back to you soon.")
 
 
-# Data Scientist page
+# ------------------------------------ Data Scientist Login Page Setup --------------------------------------------------------------------------------------------------
 def data_science_page():
     set_background_image(image_path)
     page_bg_img = f"""
@@ -428,7 +435,7 @@ def data_science_page():
     selected = option_menu(
         menu_title=None,
         options=["SIGN UP / LOGIN", "ABOUT", "CONTACT"],
-        icons=["", "briefcase", "person-lines-fill"],
+        icons=["", "Images//briefcase", "Images//person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -534,7 +541,7 @@ def data_science_page():
                 # This is a placeholder to simulate form submission
                 st.success(f"Thank you, {name}, for reaching out! We'll get back to you soon.")
 
-
+# ------------------------------------ Data Scientist Page Setup --------------------------------------------------------------------------------------------------------
 def app_page():
     col1, col2 = st.columns([0.9, 0.18])  # Adjust the ratio as needed
     with col2:  # Use the second column to place the logout button
@@ -619,7 +626,7 @@ def app_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=["house", "briefcase", "person-lines-fill"],
+        icons=["Images//house", "Images//briefcase", "Images//person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -700,7 +707,7 @@ def app_page():
                 # This is a placeholder to simulate form submission
                 st.success(f"Thank you, {name}, for reaching out! We'll get back to you soon.")
 
-# Page routing
+# ------------------------------------ Page Routing Setup ---------------------------------------------------------------------------------------------------------------
 if "current_page" not in st.session_state:
     st.session_state['current_page'] = "welcome"
 if st.session_state['current_page'] == "welcome":
@@ -715,5 +722,5 @@ elif st.session_state['current_page'] == "app":
 
 
 
-# image  references
+# image  reference
 # <a href="https://www.flaticon.com/free-icons/password" title="password icons">Password icons created by Pixel perfect - Flaticon</a>
