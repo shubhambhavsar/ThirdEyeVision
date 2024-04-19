@@ -203,6 +203,8 @@ def welcome_page():
         # Creating a session state to store the uploaded video's state
         if 'video_uploaded' not in st.session_state:
             st.session_state.video_uploaded = False
+
+        if 'play_audio' not in st.session_state:           
             st.session_state.play_audio = False
 
         # Check if a new video has been uploaded
