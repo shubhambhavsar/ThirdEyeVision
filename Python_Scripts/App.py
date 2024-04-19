@@ -262,44 +262,44 @@ def welcome_page():
                 main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Hide-Video")
         text_ab = ""
 
-    # page_bg_img = f"""
-    # <style>
-    # [data-testid="stFileUploader"] {{
-    # background-color: rgb(255, 255, 255);
-    # background-size: 180%;
-    # background-position: top left;
-    # background-repeat: no-repeat;
-    # background-attachment: local;
-    # padding: 10px; /* Some padding around the text */
-    # margin: 10px 0; /* Some space above and below the text box */
-    # }}
+    page_bg_img = f"""
+    <style>
+    [data-testid="stFileUploader"] {{
+    background-color: rgb(255, 255, 255);
+    background-size: 180%;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: local;
+    padding: 10px; /* Some padding around the text */
+    margin: 10px 0; /* Some space above and below the text box */
+    }}
 
-    # /* Override styles for dark theme */
-    # @media (prefers-color-scheme: dark) {{
-    #     [data-testid="stFileUploader"] {{
-    #     background-color: #262730;
-    #     background-size: 180%;
-    #     background-position: top left;
-    #     background-repeat: no-repeat;
-    #     background-attachment: local;
-    #     padding: 10px; /* Some padding around the text */
-    #     margin: 10px 0; /* Some space above and below the text box */
-    # }}}}
+    /* Override styles for dark theme
+    @media (prefers-color-scheme: dark) {{
+        [data-testid="stFileUploader"] {{
+        background-color: #262730;
+        background-size: 180%;
+        background-position: top left;
+        background-repeat: no-repeat;
+        background-attachment: local;
+        padding: 10px; /* Some padding around the text */
+        margin: 10px 0; /* Some space above and below the text box */
+    }}}} */
 
-    # </style>
-    # """
+    </style>
+    """
 
-    # st.markdown(page_bg_img, unsafe_allow_html=True)
+    st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    # # Header Section
-    # css = """
-    # <style>
-    #     h1{
-    #         color: white;
-    #     }
-    # </style>
-    # """
-    # st.markdown(css, unsafe_allow_html=True)
+    # Header Section
+    css = """
+    <style>
+        h1{
+            color: white;
+        }
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
 
 
 
