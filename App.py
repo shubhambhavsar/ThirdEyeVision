@@ -17,7 +17,7 @@ from hashlib import sha256
 im = Image.open(r'Images/eye.png')
 
 # OCR Model Path
-model_path = "OCR.pt"
+model_path = r"ML_Models/OCR.pt"
 
 # Background Image Path
 image_path = r'Images/image_bg.jpg'
