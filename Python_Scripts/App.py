@@ -20,7 +20,7 @@ im = Image.open(r'Images/eye.png')
 model_path = r"ML_Models/OCR.pt"
 
 # Background Image Path
-image_path = r'Images/image_bg.jpg'
+image_path = 'image_bg.jpg'
 
 # --------------------------------------------- Configuring Page ---------------------------------------------------------------------------------------------
 # Setting page layout
@@ -120,7 +120,7 @@ def welcome_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=[r"Images/house.svg", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
+        icons=["house", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -418,7 +418,7 @@ def data_science_page():
     selected = option_menu(
         menu_title=None,
         options=["SIGN UP / LOGIN", "ABOUT", "CONTACT"],
-        icons=["", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
+        icons=["", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
@@ -582,7 +582,7 @@ def app_page():
     selected = option_menu(
         menu_title=None,
         options=["HOME", "ABOUT", "CONTACT"],
-        icons=[r"Images/house.svg", r"Images/briefcase.svg", r"Images/person-lines-fill.svg"],
+        icons=["house", "briefcase", "person-lines-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
