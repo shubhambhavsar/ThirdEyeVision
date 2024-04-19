@@ -203,16 +203,19 @@ def welcome_page():
         # Creating a session state to store the uploaded video's state
         if 'video_uploaded' not in st.session_state:
             st.session_state.video_uploaded = False
+            st.session_state.play_audio = False
 
         # Check if a new video has been uploaded
         if uploaded_file is not None and not st.session_state.video_uploaded:
             st.session_state.video_uploaded = True
+            st.session_state.play_audio = True
             st.experimental_rerun()
         
-        if st.session_state.video_uploaded:
+        if st.session_state.play_audio:
             msg = "Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now."
             speak_welc(msg)
             msg = ""
+            st.session_state.play_audio = False
 
         # Let's assume `audio_segment` is your AudioSegment object
         audio_segment = audiorecorder("Click to record", "Click to stop recording")
@@ -257,57 +260,57 @@ def welcome_page():
                 main_func_alert(vid_cap,user_conf_value=0.35, margin=0.1, user_class_id=[1, 2, 3, 5, 7], user_fps_value=1, vid_type="Hide-Video")
         text_ab = ""
 
-    page_bg_img = f"""
-    <style>
-    [data-testid="stFileUploader"] {{
-    background-color: rgb(255, 255, 255);
-    background-size: 180%;
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-attachment: local;
-    padding: 10px; /* Some padding around the text */
-    margin: 10px 0; /* Some space above and below the text box */
-    }}
+    # page_bg_img = f"""
+    # <style>
+    # [data-testid="stFileUploader"] {{
+    # background-color: rgb(255, 255, 255);
+    # background-size: 180%;
+    # background-position: top left;
+    # background-repeat: no-repeat;
+    # background-attachment: local;
+    # padding: 10px; /* Some padding around the text */
+    # margin: 10px 0; /* Some space above and below the text box */
+    # }}
 
-    /* Override styles for dark theme */
-    @media (prefers-color-scheme: dark) {{
-        [data-testid="stFileUploader"] {{
-        background-color: #262730;
-        background-size: 180%;
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-attachment: local;
-        padding: 10px; /* Some padding around the text */
-        margin: 10px 0; /* Some space above and below the text box */
-    }}}}
+    # /* Override styles for dark theme */
+    # @media (prefers-color-scheme: dark) {{
+    #     [data-testid="stFileUploader"] {{
+    #     background-color: #262730;
+    #     background-size: 180%;
+    #     background-position: top left;
+    #     background-repeat: no-repeat;
+    #     background-attachment: local;
+    #     padding: 10px; /* Some padding around the text */
+    #     margin: 10px 0; /* Some space above and below the text box */
+    # }}}}
 
-    </style>
-    """
+    # </style>
+    # """
 
-    st.markdown(page_bg_img, unsafe_allow_html=True)
+    # st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    # Header Section
-    css = """
-    <style>
-        h1{
-            color: white;
-        }
-    </style>
-    """
-    st.markdown(css, unsafe_allow_html=True)
+    # # Header Section
+    # css = """
+    # <style>
+    #     h1{
+    #         color: white;
+    #     }
+    # </style>
+    # """
+    # st.markdown(css, unsafe_allow_html=True)
 
 
 
 
     if selected == "ABOUT":
-        css = """
-        <style>
-            h2,p,li {
-            color: white;
-            }
-        </style>
-        """
-        st.markdown(css,unsafe_allow_html=True)
+        # css = """
+        # <style>
+        #     h2,p,li {
+        #     color: white;
+        #     }
+        # </style>
+        # """
+        # st.markdown(css,unsafe_allow_html=True)
         st.header("🚀 Elevate Independence")
         st.write("""
             "Third Eye" leverages groundbreaking computer vision technology to empower blind and low-vision individuals. Navigate your surroundings with newfound confidence as "Third Eye" interprets the world in real-time.
@@ -332,25 +335,25 @@ def welcome_page():
         Become a part of the "Third Eye" community and contribute to a world where technology bridges the gap towards a more inclusive society. Share your experiences, suggest improvements, and help us make "Third Eye" better for everyone.
         """)
 
-        st.markdown('</div>', unsafe_allow_html=True)
+        # st.markdown('</div>', unsafe_allow_html=True)
 
 
 
     if selected == "CONTACT":
-        css2 = """
-        <style>
-            [data-testid="StyledLinkIconContainer"]{
-            color: white;
-            }
-            [data-testid="stWidgetLabel"]{
-            color: white;
-            }
-        .st-emotion-cache-eqffof.e1nzilvr5 p {
-            color: white;
-        }
-        </style>
-        """
-        st.markdown(css2, unsafe_allow_html=True)
+        # css2 = """
+        # <style>
+        #     [data-testid="StyledLinkIconContainer"]{
+        #     color: white;
+        #     }
+        #     [data-testid="stWidgetLabel"]{
+        #     color: white;
+        #     }
+        # .st-emotion-cache-eqffof.e1nzilvr5 p {
+        #     color: white;
+        # }
+        # </style>
+        # """
+        # st.markdown(css2, unsafe_allow_html=True)
 
 
         # Add a Contact Us section
