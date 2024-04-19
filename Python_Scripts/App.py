@@ -371,58 +371,58 @@ def welcome_page():
 
 # ------------------------------------ Data Scientist Login Page Setup --------------------------------------------------------------------------------------------------
 def data_science_page():
-    set_background_image(image_path)
-    page_bg_img = f"""
-    <style>
-    [data-testid="stTab"]{{
-    background-color: rgb(255, 255, 255);
-    background-size: 180%;
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-attachment: local;
-    padding: 10px; /* Some padding around the text */
-    margin: 10px 0; /* Some space above and below the text box */
-    }}
+    # set_background_image(image_path)
+    # page_bg_img = f"""
+    # <style>
+    # [data-testid="stTab"]{{
+    # background-color: rgb(255, 255, 255);
+    # background-size: 180%;
+    # background-position: top left;
+    # background-repeat: no-repeat;
+    # background-attachment: local;
+    # padding: 10px; /* Some padding around the text */
+    # margin: 10px 0; /* Some space above and below the text box */
+    # }}
 
-    /* Override styles for dark theme */
-    @media (prefers-color-scheme: dark) {{
-        [data-testid="stTab"]{{
-        background-color: #262730;
-        background-size: 180%;
-        background-position: top left;
-        background-repeat: no-repeat;
-        background-attachment: local;
-        padding: 10px; /* Some padding around the text */
-        margin: 10px 0; /* Some space above and below the text box */
-        }}}}
+    # /* Override styles for dark theme */
+    # @media (prefers-color-scheme: dark) {{
+    #     [data-testid="stTab"]{{
+    #     background-color: #262730;
+    #     background-size: 180%;
+    #     background-position: top left;
+    #     background-repeat: no-repeat;
+    #     background-attachment: local;
+    #     padding: 10px; /* Some padding around the text */
+    #     margin: 10px 0; /* Some space above and below the text box */
+    #     }}}}
 
 
-    [data-testid="textInputRootElement"]{{
-    background-color: rgb(255, 255, 255);
-    border-color: black
-    }}
+    # [data-testid="textInputRootElement"]{{
+    # background-color: rgb(255, 255, 255);
+    # border-color: black
+    # }}
 
-    /* Override styles for dark theme */
-    @media (prefers-color-scheme: dark) {{
-        [data-testid="textInputRootElement"]{{
-        background-color: #262730;
-        border-color: white
-        }}}}
+    # /* Override styles for dark theme */
+    # @media (prefers-color-scheme: dark) {{
+    #     [data-testid="textInputRootElement"]{{
+    #     background-color: #262730;
+    #     border-color: white
+    #     }}}}
 
-    </style>
-    """
+    # </style>
+    # """
 
-    st.markdown(page_bg_img, unsafe_allow_html=True)
+    # st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    # Header Section
-    css = """
-    <style>
-        h1 {
-            color: white;
-        }
-    </style>
-    """
-    st.markdown(css, unsafe_allow_html=True)
+    # # Header Section
+    # css = """
+    # <style>
+    #     h1 {
+    #         color: white;
+    #     }
+    # </style>
+    # """
+    # st.markdown(css, unsafe_allow_html=True)
 
 
     col1, col2 = st.columns([0.9, 0.18])  # Adjust the ratio as needed
@@ -470,17 +470,17 @@ def data_science_page():
     
     if selected == "ABOUT":
 
-        css2 = """
-        <style>
-            [data-testid="StyledLinkIconContainer"],li{
-            color: white;
-            }
-        .st-emotion-cache-eqffof.e1nzilvr5 p {
-            color: white;
-        }
-        </style>
-        """
-        st.markdown(css2, unsafe_allow_html=True)
+        # css2 = """
+        # <style>
+        #     [data-testid="StyledLinkIconContainer"],li{
+        #     color: white;
+        #     }
+        # .st-emotion-cache-eqffof.e1nzilvr5 p {
+        #     color: white;
+        # }
+        # </style>
+        # """
+        # st.markdown(css2, unsafe_allow_html=True)
     
         with st.container():
             st.markdown(css, unsafe_allow_html=True)
@@ -509,20 +509,20 @@ def data_science_page():
             """)
 
     if selected == "CONTACT":
-        css2 = """
-        <style>
-            [data-testid="StyledLinkIconContainer"]{
-            color: white;
-            }
-            [data-testid="stWidgetLabel"]{
-            color: white;
-            }
-        .st-emotion-cache-eqffof.e1nzilvr5 p {
-            color: white;
-        }
-        </style>
-        """
-        st.markdown(css2, unsafe_allow_html=True)
+        # css2 = """
+        # <style>
+        #     [data-testid="StyledLinkIconContainer"]{
+        #     color: white;
+        #     }
+        #     [data-testid="stWidgetLabel"]{
+        #     color: white;
+        #     }
+        # .st-emotion-cache-eqffof.e1nzilvr5 p {
+        #     color: white;
+        # }
+        # </style>
+        # """
+        # st.markdown(css2, unsafe_allow_html=True)
 
         # Add a Contact Us section
         st.header("📬 Contact Us")
