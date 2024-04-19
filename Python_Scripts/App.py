@@ -28,8 +28,7 @@ st.set_page_config(
         page_title="Third Eye Vision",  # Setting page title
         page_icon=im,  # Setting page icon
         # layout="wide",      # Setting layout to wide
-        initial_sidebar_state="expanded",  # Expanding sidebar by default
-        theme="light"
+        initial_sidebar_state="expanded"  # Expanding sidebar by default
     )
 
 
