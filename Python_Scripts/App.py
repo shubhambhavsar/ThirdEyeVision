@@ -184,7 +184,7 @@ def welcome_page():
         text_ab = None
 
         if uploaded_file is not None:
-            temporary_location = "testout_simple.mp4"
+            temporary_location = "temp_video_file.mp4"
             try:
                 with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
                     out.write(uploaded_file.read())  ## Read bytes into file
@@ -562,7 +562,7 @@ def app_page():
         temporary_location = None
 
         if uploaded_file is not None:
-            temporary_location = "testout_simple.mp4"
+            temporary_location = "temp_video_file.mp4"
             try:
                 with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
                     out.write(uploaded_file.read())  ## Read bytes into file
