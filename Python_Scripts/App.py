@@ -14,7 +14,7 @@ import sqlite3
 from hashlib import sha256
 
 # Page Icon
-im = Image.open(r'Images/eye.png')
+im = Image.open('eye.png')
 
 # OCR Model Path
 model_path = r"ML_Models/OCR.pt"
