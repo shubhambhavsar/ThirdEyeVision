@@ -28,7 +28,8 @@ st.set_page_config(
         page_title="Third Eye Vision",  # Setting page title
         page_icon=im,  # Setting page icon
         # layout="wide",      # Setting layout to wide
-        initial_sidebar_state="expanded"  # Expanding sidebar by default
+        initial_sidebar_state="expanded",  # Expanding sidebar by default
+        theme="light"
     )
 
 
@@ -135,13 +136,13 @@ def welcome_page():
             padding: 10px; /* Some padding around the text */
         }
 
-        /* Override styles for dark theme */
+        /* Override styles for dark theme 
         @media (prefers-color-scheme: dark) {
             .textbox, .element-container st-emotion-cache-kdanly e1f1d6gn4 {
             background-color: #262730; /* Semi-transparent white */
             padding: 10px; /* Some padding around the text */                   
         }
-        }            
+        }*/            
 
         </style>
         """, unsafe_allow_html=True)
@@ -210,7 +211,9 @@ def welcome_page():
             st.experimental_rerun()
         
         if st.session_state.video_uploaded:
-            speak_welc("Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now.")
+            msg = "Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now."
+            speak_welc(msg)
+            msg = ""
 
         # Let's assume `audio_segment` is your AudioSegment object
         audio_segment = audiorecorder("Click to record", "Click to stop recording")
