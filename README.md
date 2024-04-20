@@ -21,10 +21,9 @@ OR
 
 Method 2: **Clone the Repository**
 
-   You can clone the repository using the following command:
+You can clone the repository using the following command:
 
-   ```bash
-   git clone https://github.com/shubhambhavsar/Streamlit_app.git
+git clone https://github.com/shubhambhavsar/Streamlit_app.git
 
 
 2. Install Required Libraries Depending on your operating system, use one of the following methods:
