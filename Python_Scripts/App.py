@@ -32,7 +32,7 @@ st.set_page_config(
     )
 
 
-# ---------------------------------------------- Database setup start ------------------------------------------------------------------------------------------------
+# ---------------------------------------------- Database setup start -----------------------------------------------------------------------------------------
 DB_FILE = 'users.db'
 
 def init_db():
@@ -226,7 +226,7 @@ def welcome_page():
             st.experimental_rerun()
         
         if st.session_state.play_audio:
-            msg = "Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street name to know the street name, speak alert to initiate the alert system. You may speak now."
+            msg = "Welcome to Third Eye. Please speak pedestrian to know pedestrian signal, speak street to know the street name, speak alert to initiate the alert system. You may speak now."
             speak_welc(msg)
             msg = ""
             st.session_state.play_audio = False
