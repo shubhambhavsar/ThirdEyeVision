@@ -2,6 +2,10 @@
 
 Welcome to the ThirdEye application repository. Follow the instructions below to set up and run the application on your local machine.
 
+Note: Please note that the application's formatting is optimized for the Streamlit cloud, so the font visibility or the background theme may differ when run locally.
+
+Application URL: https://thirdeyevision.streamlit.app/
+
 ## Prerequisites
 
 - Git (for cloning the repository)
